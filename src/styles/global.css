@@ -195,12 +195,12 @@ main, header, footer, section { position: relative; z-index: 1; }
   height: 2px;
   background: var(--ink);
   margin-top: 0.5rem;
-  transition: width 0.6s var(--ease-out);
+  transition: width 0.9s var(--ease-out);
 }
 
 .reveal.visible .page-title::after {
   width: 100%;
-  transition-delay: 0.2s;
+  transition-delay: 0.3s;
 }
 
 /* Insignias ovaladas — estilos scoped en Badge.astro (.badge-svg) */
