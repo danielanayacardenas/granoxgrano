@@ -50,14 +50,6 @@ main, header, footer, section { position: relative; z-index: 1; }
   width: min(var(--max), calc(100% - 3rem));
   margin-inline: auto;
 }
-/* Más aire en pantallas angostas + respeto al notch */
-@media (max-width: 640px) {
-  .wrap { width: calc(100% - 2.5rem); }
-  .page { padding: clamp(2.75rem, 9vw, 3.5rem) 0; }
-  .cover-inner {
-    padding: max(16vh, 5.5rem + env(safe-area-inset-top)) 1.25rem max(6vh, 2.5rem + env(safe-area-inset-bottom));
-  }
-}
 
 .display {
   font-family: var(--display);
@@ -354,7 +346,7 @@ main, header, footer, section { position: relative; z-index: 1; }
   align-items: start;
   margin-top: 1rem;
 }
-.microlotes-grid h2 { margin: 0; font-size: clamp(1.5rem, 4.5vw, 2.6rem); white-space: nowrap; }
+.microlotes-grid h2 { margin: 0; font-size: clamp(1.4rem, 4.5vw, 2.6rem); white-space: nowrap; }
 .pregunta { font-size: 1.15rem; font-weight: 500; margin: 0.2rem 0 0; }
 .micro-desc { font-size: 0.82rem; max-width: 52ch; }
 @media (max-width: 640px) {
@@ -428,6 +420,18 @@ main, header, footer, section { position: relative; z-index: 1; }
 }
 @media (max-width: 480px) {
   .footer-meta { font-size: 0.68rem; letter-spacing: 0.14em; }
+}
+
+/* Ajustes angostos: van al final para ganar la cascada a las reglas base */
+/* Más aire en pantallas angostas + respeto al notch */
+@media (max-width: 640px) {
+  .wrap { width: calc(100% - 2.5rem); }
+  .page { padding: clamp(2.75rem, 9vw, 3.5rem) 0; }
+  /* "TRADICIONAL" no cabe a 2.5rem en 320px: escala con el viewport */
+  .page-title { font-size: clamp(2rem, 11vw, 2.5rem); }
+  .cover-inner {
+    padding: max(16vh, 5.5rem + env(safe-area-inset-top)) 1.25rem max(6vh, 2.5rem + env(safe-area-inset-bottom));
+  }
 }
 
 /* === MOTION TOKENS === */
