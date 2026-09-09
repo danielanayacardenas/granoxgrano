@@ -28,5 +28,62 @@ const {
   <body>
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
     <slot />
+    
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        if (prefersReducedMotion) {
+          revealElements.forEach(el => el.classList.add('visible'));
+          return;
+        }
+        
+        // Immediately show elements already in viewport
+        revealElements.forEach(el => {
+          const rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight && rect.bottom > 0) {
+            el.classList.add('visible');
+          }
+        });
+        
+        // Set up observer for remaining elements
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { 
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+          }
+        );
+        
+        // Only observe elements not yet visible
+        revealElements.forEach(el => {
+          if (!el.classList.contains('visible')) {
+            observer.observe(el);
+          }
+        });
+        
+        // Cover fade out on scroll
+        const cover = document.querySelector('.cover') as HTMLElement | null;
+        const coverInner = document.querySelector('.cover-inner') as HTMLElement | null;
+        if (cover && coverInner) {
+          window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            const fadeStart = 0;
+            const fadeEnd = window.innerHeight * 0.5;
+            const opacity = Math.max(0, 1 - (scrollY - fadeStart) / (fadeEnd - fadeStart));
+            coverInner.style.opacity = String(opacity);
+            coverInner.style.transform = `translateY(${scrollY * 0.3}px)`;
+          }, { passive: true });
+        }
+      });
+    </script>
   </body>
 </html>
