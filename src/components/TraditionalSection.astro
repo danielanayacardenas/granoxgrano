@@ -9,9 +9,9 @@ interface Props {
 
 const { blend } = Astro.props;
 ---
-<section class="page" id={blend.id} aria-labelledby={`${blend.id}-titulo`}>
+<section class="page reveal" id={blend.id} aria-labelledby={`${blend.id}-titulo`}>
   <div class="wrap tradicional-grid">
-    <Badge name="GAIA" icon="❧" tone="gaia" />
+    <Badge tone="gaia" />
     <div>
       <h2 class="display page-title" id={`${blend.id}-titulo`}>
         <span>{blend.title}</span>

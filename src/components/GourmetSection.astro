@@ -9,7 +9,7 @@ interface Props {
 
 const { gourmet } = Astro.props;
 ---
-<section class="page" id={gourmet.id} aria-labelledby={`${gourmet.id}-titulo`}>
+<section class="page reveal" id={gourmet.id} aria-labelledby={`${gourmet.id}-titulo`}>
   <div class="wrap gourmet-grid">
     <div class="gourmet-head">
       <div>
@@ -42,7 +42,7 @@ const { gourmet } = Astro.props;
         <p class="legend">{gourmet.legend}</p>
         <PriceList prices={gourmet.prices} />
       </div>
-      <Badge name="AURA" icon="♨" tone="aura" />
+      <Badge tone="aura" />
     </div>
   </div>
 </section>

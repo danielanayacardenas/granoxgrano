@@ -1,20 +1,36 @@
 ---
 interface Props {
-  name: string;
-  icon: string;
   tone: 'gaia' | 'aura' | 'helios' | 'aether';
   small?: boolean;
 }
 
-const { name, icon, tone, small = false } = Astro.props;
+const { tone, small = false } = Astro.props;
+
+const colors: Record<string, string> = {
+  gaia: '#6A3A1E',
+  aura: '#7E8891',
+  helios: '#6E1B30',
+  aether: '#103E4E',
+};
+
+const badgePath = 'M84 2 C132 2 154 36 154 72 L154 198 C154 234 132 268 84 268 C36 268 14 234 14 198 L14 72 C14 36 36 2 84 2 Z';
 ---
-<div class:list={['badge', tone, { small }]} aria-hidden="true">
-  <div class="b-name">{name}</div>
-  <div style="display:flex; justify-content:space-between; align-items:center; font-size:.55rem; letter-spacing:.1em;">
-    <span>EST</span><span>2017</span>
-  </div>
-  <div class="b-icon">{icon}</div>
-  <div class="b-foot">
-    <span>Grano x Grano</span>
-  </div>
+<div class:list={['badge-svg', { small }]} aria-hidden="true">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 168 270" fill="none">
+    <path d={badgePath} fill={colors[tone]}/>
+  </svg>
 </div>
+
+<style>
+  .badge-svg {
+    width: 168px;
+    flex: none;
+  }
+  .badge-svg :global(svg) {
+    width: 100%;
+    height: auto;
+  }
+  .badge-svg.small {
+    width: 92px;
+  }
+</style>

@@ -1,16 +1,3 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 168 270" fill="none">
-  <ellipse cx="84" cy="135" rx="84" ry="135" fill="#6E1B30"/>
-  <text x="84" y="55" text-anchor="middle" font-family="Georgia, serif" font-size="14" letter-spacing="0.42em" fill="#F5EBD6">HELIOS</text>
-  <line x1="30" y1="68" x2="138" y2="68" stroke="#F5EBD6" stroke-width="0.5" opacity="0.7"/>
-  <text x="35" y="75" font-family="Helvetica Neue, sans-serif" font-size="8" letter-spacing="0.1em" fill="#F5EBD6">EST</text>
-  <text x="133" y="75" text-anchor="end" font-family="Helvetica Neue, sans-serif" font-size="8" letter-spacing="0.1em" fill="#F5EBD6">2017</text>
-  <circle cx="84" cy="140" r="25" stroke="#F5EBD6" stroke-width="1.5" fill="none"/>
-  <circle cx="84" cy="140" r="8" fill="#F5EBD6"/>
-  <line x1="84" y1="105" x2="84" y2="115" stroke="#F5EBD6" stroke-width="1.5"/>
-  <line x1="84" y1="165" x2="84" y2="175" stroke="#F5EBD6" stroke-width="1.5"/>
-  <line x1="49" y1="140" x2="59" y2="140" stroke="#F5EBD6" stroke-width="1.5"/>
-  <line x1="109" y1="140" x2="119" y2="140" stroke="#F5EBD6" stroke-width="1.5"/>
-  <line x1="30" y1="210" x2="138" y2="210" stroke="#F5EBD6" stroke-width="0.5" opacity="0.7"/>
-  <text x="84" y="225" text-anchor="middle" font-family="Georgia, serif" font-size="10" letter-spacing="0.04em" fill="#F5EBD6">Grano x Grano</text>
-  <text x="84" y="240" text-anchor="middle" font-family="Helvetica Neue, sans-serif" font-size="7" letter-spacing="0.1em" fill="#F5EBD6" opacity="0.8">LA CLARIDAD</text>
+  <path d="M84 2 C132 2 154 36 154 72 L154 198 C154 234 132 268 84 268 C36 268 14 234 14 198 L14 72 C14 36 36 2 84 2 Z" fill="#6E1B30"/>
 </svg>

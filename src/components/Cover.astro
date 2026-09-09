@@ -9,9 +9,10 @@ const { meta } = Astro.props;
 ---
 <section class="cover" id="portada" aria-label={`Portada ${meta.brand}`}>
   <div class="cover-inner">
-    <div>
-      <h1>{meta.brand}</h1>
-      <p class="edition">{meta.motto} {meta.edition}</p>
+    <div class="cover-top">
+      <h1 class="cover-title">{meta.title}</h1>
+      <p class="cover-brand">{meta.brand}</p>
+      <p class="cover-subtitle">{meta.motto}</p>
     </div>
     <div class="cover-foot">
       <p class="tag">{meta.tagline}</p>

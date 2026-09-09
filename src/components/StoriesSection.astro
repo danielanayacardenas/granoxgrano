@@ -9,14 +9,14 @@ interface Props {
 
 const { heading, stories } = Astro.props;
 
-const tones: Record<string, { tone: 'gaia' | 'aura' | 'helios' | 'aether'; icon: string; name: string }> = {
-  gaia: { tone: 'gaia', icon: '❧', name: 'GAIA' },
-  aura: { tone: 'aura', icon: '♨', name: 'AURA' },
-  helios: { tone: 'helios', icon: '☀', name: 'HELIOS' },
-  aether: { tone: 'aether', icon: '☁', name: 'AETHER' },
+const tones: Record<string, 'gaia' | 'aura' | 'helios' | 'aether'> = {
+  gaia: 'gaia',
+  aura: 'aura',
+  helios: 'helios',
+  aether: 'aether',
 };
 ---
-<section class="page historias" id="historias" aria-labelledby="historias-titulo">
+<section class="page historias reveal" id="historias" aria-labelledby="historias-titulo">
   <div class="wrap">
     <h2 class="display historias-title" id="historias-titulo">{heading}</h2>
     <div class="long-rule" aria-hidden="true"></div>
@@ -24,9 +24,7 @@ const tones: Record<string, { tone: 'gaia' | 'aura' | 'helios' | 'aether'; icon:
       <div>
         <div class="story-row">
           <Badge
-            name={tones[story.id]?.name ?? story.name}
-            icon={tones[story.id]?.icon ?? '❧'}
-            tone={tones[story.id]?.tone ?? 'gaia'}
+            tone={tones[story.id] ?? 'gaia'}
             small
           />
           <div>
