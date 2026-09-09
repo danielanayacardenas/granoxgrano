@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" fill="none">
+  <!-- Background -->
+  <rect width="400" height="120" fill="#ECE2CC"/>
+  
+  <!-- Wordmark -->
+  <text x="200" y="65" text-anchor="middle" font-family="Georgia, serif" font-size="48" font-weight="500" letter-spacing="0.08em" fill="#191713">GRANO × GRANO</text>
+  
+  <!-- Tagline -->
+  <text x="200" y="95" text-anchor="middle" font-family="Helvetica Neue, sans-serif" font-size="12" letter-spacing="0.25em" fill="#3D3A33">CAFÉ CULTURA</text>
+  
+  <!-- EST mark -->
+  <text x="200" y="110" text-anchor="middle" font-family="Helvetica Neue, sans-serif" font-size="9" letter-spacing="0.2em" fill="#5A2E14">— EST. 2017 —</text>
+</svg>

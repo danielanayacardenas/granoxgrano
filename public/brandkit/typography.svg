@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+  <!-- Background -->
+  <rect width="400" height="300" fill="#ECE2CC"/>
+  
+  <!-- Title -->
+  <text x="20" y="35" font-family="Georgia, serif" font-size="18" font-weight="500" letter-spacing="0.05em" fill="#191713">TYPOGRAPHY</text>
+  
+  <!-- Display Font -->
+  <text x="20" y="70" font-family="Helvetica Neue, sans-serif" font-size="10" letter-spacing="0.15em" fill="#3D3A33">DISPLAY — FRAUNCES / CORMORANT GARAMOND</text>
+  
+  <text x="20" y="110" font-family="Georgia, serif" font-size="48" font-weight="700" fill="#191713">Grano × Grano</text>
+  
+  <text x="20" y="140" font-family="Georgia, serif" font-size="14" fill="#3D3A33">ABCDEFGHIJKLMNOPQRSTUVWXYZ</text>
+  <text x="20" y="158" font-family="Georgia, serif" font-size="14" fill="#3D3A33">abcdefghijklmnopqrstuvwxyz</text>
+  <text x="20" y="176" font-family="Georgia, serif" font-size="14" fill="#3D3A33">0123456789 — × ·</text>
+  
+  <!-- Body Font -->
+  <text x="20" y="210" font-family="Helvetica Neue, sans-serif" font-size="10" letter-spacing="0.15em" fill="#3D3A33">BODY — HELVETICA NEUE</text>
+  
+  <text x="20" y="238" font-family="Helvetica Neue, sans-serif" font-size="16" fill="#191713">Café Cultura — Legado que se cultiva</text>
+  
+  <text x="20" y="260" font-family="Helvetica Neue, sans-serif" font-size="12" fill="#3D3A33">ABCDEFGHIJKLMNOPQRSTUVWXYZ</text>
+  <text x="20" y="278" font-family="Helvetica Neue, sans-serif" font-size="12" fill="#3D3A33">abcdefghijklmnopqrstuvwxyz</text>
+</svg>

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 168 270" fill="none">
+  <!-- Badge Shape -->
+  <ellipse cx="84" cy="135" rx="84" ry="135" fill="#6A3A1E"/>
+  
+  <!-- Brand Name -->
+  <text x="84" y="55" text-anchor="middle" font-family="Georgia, serif" font-size="14" letter-spacing="0.42em" fill="#F5EBD6">GAIA</text>
+  
+  <!-- EST Line -->
+  <line x1="30" y1="68" x2="138" y2="68" stroke="#F5EBD6" stroke-width="0.5" opacity="0.7"/>
+  <text x="35" y="75" font-family="Helvetica Neue, sans-serif" font-size="8" letter-spacing="0.1em" fill="#F5EBD6">EST</text>
+  <text x="133" y="75" text-anchor="end" font-family="Helvetica Neue, sans-serif" font-size="8" letter-spacing="0.1em" fill="#F5EBD6">2017</text>
+  
+  <!-- Icon (Earth/Origin symbol) -->
+  <circle cx="84" cy="140" r="45" stroke="#F5EBD6" stroke-width="1" fill="none"/>
+  <circle cx="84" cy="140" r="30" stroke="#F5EBD6" stroke-width="0.5" fill="none"/>
+  <ellipse cx="84" cy="140" rx="45" ry="15" stroke="#F5EBD6" stroke-width="0.5" fill="none"/>
+  <line x1="84" y1="95" x2="84" y2="185" stroke="#F5EBD6" stroke-width="0.5"/>
+  
+  <!-- Footer -->
+  <line x1="30" y1="210" x2="138" y2="210" stroke="#F5EBD6" stroke-width="0.5" opacity="0.7"/>
+  <text x="84" y="225" text-anchor="middle" font-family="Georgia, serif" font-size="10" letter-spacing="0.04em" fill="#F5EBD6">Grano x Grano</text>
+  <text x="84" y="240" text-anchor="middle" font-family="Helvetica Neue, sans-serif" font-size="7" letter-spacing="0.1em" fill="#F5EBD6" opacity="0.8">EL ORIGEN</text>
+</svg>
