@@ -1,8 +1,10 @@
 ---
+import { Image } from 'astro:assets';
 import type { GourmetSection } from '../types/catalog';
 import PriceList from './PriceList.astro';
 import Badge from './Badge.astro';
 import SectionHeader from './ui/SectionHeader.astro';
+import franja from '../assets/franja-frijoles.jpg';
 
 interface Props {
   gourmet: GourmetSection;
@@ -45,5 +47,5 @@ const { gourmet } = Astro.props;
   </div>
 </section>
 <div class="bean-strip" aria-hidden="true">
-  <img src="/img/franja-frijoles.jpg" alt="" loading="lazy" />
+  <Image src={franja} widths={[480, 768, 1080]} sizes="100vw" alt="" loading="lazy" decoding="async" class="bean-img" />
 </div>

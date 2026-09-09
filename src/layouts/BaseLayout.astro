@@ -15,12 +15,10 @@ const {
 <html lang="es">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    
-    <!-- Preload critical assets -->
-    <link rel="preload" as="image" href="/img/portada.jpg" fetchpriority="high" />
+    <!-- La imagen de portada usa <Picture> con eager + fetchpriority en Cover.astro -->
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -73,10 +71,13 @@ const {
           }
         });
         
-        // Cover fade out on scroll
+        // Cover fade out on scroll (desktop con puntero fino: en táctil/móvil
+        // el translate por scroll compite con el sticky nav y causa tirones)
         const cover = document.querySelector('.cover') as HTMLElement | null;
         const coverInner = document.querySelector('.cover-inner') as HTMLElement | null;
-        if (cover && coverInner) {
+        const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
+        const smallScreen = window.innerWidth <= 768;
+        if (cover && coverInner && !coarsePointer && !smallScreen) {
           window.addEventListener('scroll', () => {
             const scrollY = window.scrollY;
             const fadeStart = 0;

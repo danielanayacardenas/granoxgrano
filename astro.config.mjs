@@ -6,4 +6,10 @@ export default defineConfig({
   build: {
     inlineStylesheets: 'auto',
   },
+  // Agregamos la configuración de Vite para permitir los túneles locales
+  vite: {
+    server: {
+      allowedHosts: true
+    }
+  }
 });
