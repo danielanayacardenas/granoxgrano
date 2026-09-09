@@ -347,10 +347,11 @@ main, header, footer, section { position: relative; z-index: 1; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 88%;
+  object-position: center;
   display: block;
-  clip-path: polygon(0 22%, 4% 12%, 9% 20%, 15% 8%, 22% 18%, 30% 6%, 38% 16%, 46% 7%, 54% 17%, 63% 8%, 71% 18%, 79% 7%, 87% 16%, 93% 8%, 100% 18%, 100% 100%, 0 100%);
 }
+/* El <picture> de astro:assets no debe interferir con el alto del 100% */
+.bean-strip picture { display: contents; }
 
 /* Especiales: dos columnas, derecha alineada a derecha */
 .especiales-head {
