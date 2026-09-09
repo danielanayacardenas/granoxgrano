@@ -102,6 +102,7 @@ main, header, footer, section { position: relative; z-index: 1; }
   letter-spacing: 0.22em;
   text-decoration: none;
   white-space: nowrap;
+  color: var(--ink);
 }
 .index nav { display: flex; gap: 0.9rem; margin-left: auto; overflow-x: auto; }
 .index nav a {
