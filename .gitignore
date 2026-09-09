@@ -3,5 +3,15 @@ dist/
 .astro/
 .DS_Store
 
-# PDF extracted images
-GXG_Catalogo_OCT25 (1)/
+# Env (nunca commitear secretos)
+.env
+.env.*
+!.env.example
+
+# Editores
+.vscode/
+.idea/
+
+# Logs y salidas de deploy
+*.log
+.vercel/
