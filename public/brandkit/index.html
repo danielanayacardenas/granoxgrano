@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grano × Grano — Brand Kit</title>
+  <style>
+    :root {
+      --paper: #ECE2CC;
+      --ink: #191713;
+      --ink-soft: #3D3A33;
+      --brown: #5A2E14;
+      --cream: #F5EBD6;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background: #1a1a1a;
+      color: var(--cream);
+      padding: 2rem;
+    }
+    .header { text-align: center; margin-bottom: 3rem; }
+    .header h1 {
+      font-family: Georgia, serif;
+      font-size: 2.5rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.5rem;
+    }
+    .header p { font-size: 0.9rem; letter-spacing: 0.2em; opacity: 0.7; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .panel {
+      background: var(--paper);
+      aspect-ratio: 4/3;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      position: relative;
+    }
+    .panel-label {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: var(--ink-soft);
+      text-transform: uppercase;
+    }
+    .panel-number {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      font-size: 0.6rem;
+      color: var(--ink-soft);
+    }
+    .logo-panel h2 {
+      font-family: Georgia, serif;
+      font-size: 2.5rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: var(--ink);
+      text-align: center;
+    }
+    .logo-panel .tagline {
+      font-size: 0.8rem;
+      letter-spacing: 0.25em;
+      color: var(--ink-soft);
+      margin-top: 0.5rem;
+    }
+    .logo-panel .est {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: var(--brown);
+      margin-top: 1rem;
+    }
+    .badges-panel {
+      background: var(--ink);
+      flex-direction: row;
+      gap: 1rem;
+    }
+    .mini-badge {
+      width: 60px;
+      height: 96px;
+      border-radius: 999px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0.3rem;
+      color: var(--cream);
+      font-size: 0.5rem;
+    }
+    .mini-badge .name {
+      font-family: Georgia, serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.3em;
+    }
+    .mini-badge.gaia { background: #6A3A1E; }
+    .mini-badge.aura { background: #7E8891; }
+    .mini-badge.helios { background: #6E1B30; }
+    .mini-badge.aether { background: #103E4E; }
+    .color-panel {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      padding: 1.5rem;
+    }
+    .color-swatch {
+      width: 70px;
+      height: 70px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0.3rem;
+      font-size: 0.5rem;
+    }
+    .color-swatch .name { font-weight: 600; margin-bottom: 0.1rem; }
+    .typography-panel {
+      align-items: flex-start;
+      padding: 2rem;
+    }
+    .typography-panel .display {
+      font-family: Georgia, serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+    }
+    .typography-panel .body { font-size: 0.9rem; color: var(--ink-soft); }
+    .typography-panel .label {
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      color: var(--ink-soft);
+      margin-top: 1rem;
+      margin-bottom: 0.3rem;
+    }
+    .catalog-panel { padding: 1rem; }
+    .catalog-panel img { width: 100%; height: 100%; object-fit: contain; }
+    .application-panel {
+      background: var(--ink);
+      flex-direction: row;
+      gap: 1.5rem;
+      padding: 2rem;
+    }
+    .mockup {
+      background: var(--paper);
+      padding: 1rem;
+      width: 100px;
+      height: 130px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.6rem;
+      color: var(--ink);
+      text-align: center;
+    }
+    .mockup .title {
+      font-family: Georgia, serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+    .essence-panel {
+      background: var(--brown);
+      color: var(--cream);
+    }
+    .essence-panel .quote {
+      font-family: Georgia, serif;
+      font-size: 1.5rem;
+      font-style: italic;
+      text-align: center;
+      max-width: 80%;
+    }
+    .system-panel {
+      flex-direction: row;
+      gap: 0.5rem;
+      padding: 1.5rem;
+    }
+    .chip {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 0.3rem 0.6rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+    }
+    @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <h1>GRANO × GRANO</h1>
+    <p>BRAND KIT — 3×3 IDENTITY BOARD</p>
+  </header>
+  <div class="grid">
+    <div class="panel logo-panel">
+      <span class="panel-label">01 — LOGO COVER</span>
+      <h2>GRANO × GRANO</h2>
+      <div class="tagline">CAFÉ CULTURA</div>
+      <div class="est">— EST. 2017 —</div>
+      <span class="panel-number">01</span>
+    </div>
+    <div class="panel badges-panel">
+      <span class="panel-label" style="color: var(--cream);">02 — BADGE SYSTEM</span>
+      <div class="mini-badge gaia"><span class="name">GAIA</span><span>◉</span><span>G×G</span></div>
+      <div class="mini-badge aura"><span class="name">AURA</span><span>≈</span><span>G×G</span></div>
+      <div class="mini-badge helios"><span class="name">HELIOS</span><span>☀</span><span>G×G</span></div>
+      <div class="mini-badge aether"><span class="name">AETHER</span><span>△</span><span>G×G</span></div>
+      <span class="panel-number" style="color: var(--cream);">02</span>
+    </div>
+    <div class="panel color-panel">
+      <span class="panel-label">03 — COLOR SYSTEM</span>
+      <div class="color-swatch" style="background: var(--paper); border: 1px solid var(--ink);"><span class="name" style="color: var(--ink);">Paper</span><span style="color: var(--ink);">#ECE2CC</span></div>
+      <div class="color-swatch" style="background: var(--ink); color: var(--cream);"><span class="name">Ink</span><span>#191713</span></div>
+      <div class="color-swatch" style="background: var(--brown); color: var(--cream);"><span class="name">Brown</span><span>#5A2E14</span></div>
+      <div class="color-swatch" style="background: var(--cream); border: 1px solid var(--ink);"><span class="name" style="color: var(--ink);">Cream</span><span style="color: var(--ink);">#F5EBD6</span></div>
+      <span class="panel-number">03</span>
+    </div>
+    <div class="panel typography-panel">
+      <span class="panel-label">04 — TYPOGRAPHY</span>
+      <div class="label">DISPLAY</div>
+      <div class="display">Grano × Grano</div>
+      <div class="label">BODY</div>
+      <div class="body">Café Cultura — Legado que se cultiva</div>
+      <span class="panel-number">04</span>
+    </div>
+    <div class="panel catalog-panel">
+      <span class="panel-label">05 — CATALOG SPREAD</span>
+      <img src="catalog-spread.svg" alt="Catalog spread mockup">
+      <span class="panel-number">05</span>
+    </div>
+    <div class="panel application-panel">
+      <span class="panel-label" style="color: var(--cream);">06 — APPLICATIONS</span>
+      <div class="mockup"><div class="title">COFFEE BAG</div><div>250g / 500g</div><div>Whole Bean</div></div>
+      <div class="mockup"><div class="title">LABEL</div><div>Origin</div><div>Process</div><div>Notes</div></div>
+      <div class="mockup"><div class="title">CARD</div><div>Grano × Grano</div><div>@granoxgrano</div></div>
+      <span class="panel-number" style="color: var(--cream);">06</span>
+    </div>
+    <div class="panel essence-panel">
+      <span class="panel-label" style="color: var(--cream);">07 — BRAND ESSENCE</span>
+      <div class="quote">"Legado que se cultiva"</div>
+      <span class="panel-number" style="color: var(--cream);">07</span>
+    </div>
+    <div class="panel" style="background: var(--paper-deep, #e3d5b8);">
+      <span class="panel-label">08 — IMAGE DIRECTION</span>
+      <div style="background: rgba(236,226,204,0.9); padding: 1rem; text-align: center;">
+        <div style="font-family: Georgia, serif; font-size: 0.9rem; color: var(--ink);">WARM · EARTHY · TEXTURED</div>
+        <div style="font-size: 0.7rem; color: var(--ink-soft); margin-top: 0.3rem;">Coffee photography with paper grain</div>
+      </div>
+      <span class="panel-number">08</span>
+    </div>
+    <div class="panel system-panel">
+      <span class="panel-label">09 — SYSTEM DETAIL</span>
+      <div class="chip">MINORISTA</div>
+      <div class="chip">MAYOREO</div>
+      <div class="chip">MEZCLA</div>
+      <div class="chip">GOURMET</div>
+      <div class="chip">ESPECIALES</div>
+      <div class="chip">MICROLOTES</div>
+      <span class="panel-number">09</span>
+    </div>
+  </div>
+  <footer style="text-align: center; margin-top: 3rem; padding: 2rem; opacity: 0.5; font-size: 0.7rem; letter-spacing: 0.1em;">
+    GRANO × GRANO — CAFÉ CULTURA — EST. 2017
+  </footer>
+</body>
+</html>

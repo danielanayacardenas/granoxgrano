@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" fill="none">
+  <rect width="800" height="400" fill="#ECE2CC"/>
+  <rect x="20" y="20" width="370" height="360" fill="#ECE2CC" stroke="#191713" stroke-width="0.5"/>
+  <text x="40" y="60" font-family="Georgia, serif" font-size="36" font-weight="700" fill="#191713">MEZCLA</text>
+  <text x="40" y="90" font-family="Helvetica Neue, sans-serif" font-size="24" font-weight="800" fill="#191713">TRADICIONAL</text>
+  <text x="40" y="130" font-family="Helvetica Neue, sans-serif" font-size="11" fill="#3D3A33">Mezcla de las mejores zonas productoras de México, tueste oscuro, cuerpo medio.</text>
+  <ellipse cx="100" cy="220" rx="50" ry="80" fill="#5A2E14"/>
+  <text x="100" y="245" text-anchor="middle" font-family="Georgia, serif" font-size="6" fill="#F5EBD6">Grano x Grano</text>
+  <text x="180" y="180" font-family="Helvetica Neue, sans-serif" font-size="10" font-weight="700" fill="#191713">MINORISTA: $260.00 kg</text>
+  <text x="180" y="200" font-family="Helvetica Neue, sans-serif" font-size="10" font-weight="700" fill="#191713">MAYOREO +10kg: $220.00 kg</text>
+  <rect x="410" y="20" width="370" height="360" fill="#ECE2CC" stroke="#191713" stroke-width="0.5"/>
+  <text x="430" y="60" font-family="Georgia, serif" font-size="36" font-weight="700" fill="#191713">MEZCLAS</text>
+  <text x="430" y="90" font-family="Helvetica Neue, sans-serif" font-size="24" font-weight="800" fill="#191713">GOURMET</text>
+  <text x="430" y="120" font-family="Helvetica Neue, sans-serif" font-size="11" font-style="italic" fill="#3D3A33">Cafés lavados:</text>
+  <text x="430" y="150" font-family="Helvetica Neue, sans-serif" font-size="10" fill="#191713"><tspan font-weight="700">Oaxaca</tspan> — A: baja | D: medio | C: medio alto</text>
+  <text x="430" y="170" font-family="Helvetica Neue, sans-serif" font-size="10" fill="#191713"><tspan font-weight="700">Veracruz</tspan> — A: media | D: medio | C: medio</text>
+  <text x="430" y="240" font-family="Helvetica Neue, sans-serif" font-size="9" font-style="italic" fill="#3D3A33">A = Acidez / D = Dulzor / C = Cuerpo</text>
+  <ellipse cx="720" cy="100" rx="40" ry="65" fill="#5A2E14"/>
+  <text x="720" y="120" text-anchor="middle" font-family="Georgia, serif" font-size="5" fill="#F5EBD6">Grano x Grano</text>
+  <text x="430" y="280" font-family="Helvetica Neue, sans-serif" font-size="10" font-weight="700" fill="#191713">MINORISTA: $400.00 kg</text>
+  <text x="430" y="300" font-family="Helvetica Neue, sans-serif" font-size="10" font-weight="700" fill="#191713">MAYOREO +10kg: $320.00 kg</text>
+  <line x1="400" y1="20" x2="400" y2="380" stroke="#191713" stroke-width="1"/>
+  <text x="205" y="390" text-anchor="middle" font-family="Helvetica Neue, sans-serif" font-size="8" fill="#3D3A33">12</text>
+  <text x="605" y="390" text-anchor="middle" font-family="Helvetica Neue, sans-serif" font-size="8" fill="#3D3A33">13</text>
+</svg>
