@@ -50,6 +50,14 @@ main, header, footer, section { position: relative; z-index: 1; }
   width: min(var(--max), calc(100% - 3rem));
   margin-inline: auto;
 }
+/* Más aire en pantallas angostas + respeto al notch */
+@media (max-width: 640px) {
+  .wrap { width: calc(100% - 2.5rem); }
+  .page { padding: clamp(2.75rem, 9vw, 3.5rem) 0; }
+  .cover-inner {
+    padding: max(16vh, 5.5rem + env(safe-area-inset-top)) 1.25rem max(6vh, 2.5rem + env(safe-area-inset-bottom));
+  }
+}
 
 .display {
   font-family: var(--display);
@@ -175,7 +183,7 @@ main, header, footer, section { position: relative; z-index: 1; }
   margin: 0;
   font-family: var(--cover-display);
   font-weight: 500;
-  font-size: clamp(3.5rem, 12vw, 7rem);
+  font-size: clamp(2.75rem, 13vw, 7rem);
   letter-spacing: 0.04em;
   line-height: 1.1;
 }
@@ -254,8 +262,9 @@ main, header, footer, section { position: relative; z-index: 1; }
   align-items: start;
 }
 @media (max-width: 640px) {
-  .tradicional-grid { grid-template-columns: 120px 1fr; gap: 1.1rem; }
-  .tradicional-grid .badge-svg { width: 120px; }
+  /* En móvil la insignia va centrada sobre el título, como sello */
+  .tradicional-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  .tradicional-grid .badge-svg { width: min(120px, 32vw); margin-inline: auto; }
 }
 .blend-desc { font-size: 0.92rem; max-width: 46ch; }
 .price-lines { margin: 1.4rem 0 0; font-weight: 700; font-size: 1.02rem; line-height: 1.7; }
@@ -284,12 +293,13 @@ main, header, footer, section { position: relative; z-index: 1; }
 .gourmet-profiles dd::after { content: ""; display: block; }
 .legend { font-style: italic; font-weight: 700; font-size: 0.88rem; margin-top: 1.2rem; }
 @media (max-width: 640px) {
-  .gourmet-head { grid-template-columns: 1fr 110px; }
-  .gourmet-head .badge-svg { width: 110px; }
+  .gourmet-head { grid-template-columns: 1fr; gap: 1.5rem; }
+  .gourmet-head .badge-svg { order: -1; width: min(120px, 32vw); margin-inline: auto; }
+  .gourmet-profiles { grid-template-columns: 1fr; }
 }
 
 /* Franja de frijoles con borde rasgado */
-.bean-strip { height: 230px; overflow: hidden; background: var(--paper); }
+.bean-strip { height: clamp(150px, 34vw, 230px); overflow: hidden; background: var(--paper); }
 .bean-strip img {
   width: 100%;
   height: 100%;
@@ -331,8 +341,8 @@ main, header, footer, section { position: relative; z-index: 1; }
   .especiales-cols { grid-template-columns: 1fr; }
   .especiales-cols .right { text-align: left; }
   .especiales-cols .right .price-lines { text-align: left; }
-  .especiales-head { grid-template-columns: 1fr 120px; }
-  .especiales-head .badge-svg { width: 120px; }
+  .especiales-head { grid-template-columns: 1fr; gap: 1.5rem; }
+  .especiales-head .badge-svg { order: -1; width: min(120px, 32vw); margin-inline: auto; }
 }
 
 /* Microlotes */
@@ -347,8 +357,8 @@ main, header, footer, section { position: relative; z-index: 1; }
 .pregunta { font-size: 1.15rem; font-weight: 500; margin: 0.2rem 0 0; }
 .micro-desc { font-size: 0.82rem; max-width: 52ch; }
 @media (max-width: 640px) {
-  .microlotes-grid { grid-template-columns: 120px 1fr; gap: 1.1rem; }
-  .microlotes-grid .badge-svg { width: 120px; }
+  .microlotes-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  .microlotes-grid .badge-svg { width: min(120px, 32vw); margin-inline: auto; }
 }
 
 /* Historias */
@@ -369,7 +379,10 @@ main, header, footer, section { position: relative; z-index: 1; }
 .story-row .desc { margin: 0.9rem 0 0; font-size: 0.92rem; max-width: 56ch; }
 .short-rule { width: 130px; height: 3px; background: var(--rule); margin: 0 auto; }
 @media (max-width: 600px) {
-  .story-row { grid-template-columns: 84px 1fr; gap: 1rem; }
+  /* La insignia pequeña (92px) desbordaba la columna de 84px */
+  .story-row { grid-template-columns: 76px 1fr; gap: 1rem; }
+  .story-row .badge-svg.small { width: 76px; }
+  .story-row h3 { font-size: 1.35rem; }
 }
 
 /* Cierre marrón */
@@ -403,6 +416,18 @@ main, header, footer, section { position: relative; z-index: 1; }
   letter-spacing: 0.03em;
 }
 .instagram:hover { text-decoration: underline; }
+
+/* Línea de marca del cierre: con tracking amplio desborda a 320px */
+.footer-meta {
+  margin: 0.7rem 0 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  opacity: 0.85;
+  text-wrap: balance;
+}
+@media (max-width: 480px) {
+  .footer-meta { font-size: 0.68rem; letter-spacing: 0.14em; }
+}
 
 /* === MOTION TOKENS === */
 :root {
