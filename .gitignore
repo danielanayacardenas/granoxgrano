@@ -2,3 +2,6 @@ node_modules/
 dist/
 .astro/
 .DS_Store
+
+# PDF extracted images
+GXG_Catalogo_OCT25 (1)/

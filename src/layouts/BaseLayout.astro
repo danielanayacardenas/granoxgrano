@@ -18,6 +18,11 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    
+    <!-- Preload critical assets -->
+    <link rel="preload" as="image" href="/img/portada.jpg" fetchpriority="high" />
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -46,8 +51,6 @@ const {
             el.classList.add('visible');
           }
         });
-        
-        // Set up observer for remaining elements
         const observer = new IntersectionObserver(
           (entries) => {
             entries.forEach(entry => {

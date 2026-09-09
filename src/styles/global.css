@@ -501,17 +501,5 @@ main, header, footer, section { position: relative; z-index: 1; }
   
   @media (hover: hover) and (pointer: fine) {
     .badge-svg:hover {
-      transform: none;
-    }
-  }
-  
-  .cover {
-    background-attachment: scroll;
-  }
-  
-  @supports (animation-timeline: scroll()) {
-    .badge-svg {
-      animation: none;
-    }
   }
 }

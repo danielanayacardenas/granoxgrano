@@ -2,6 +2,7 @@
 import type { GourmetSection } from '../types/catalog';
 import PriceList from './PriceList.astro';
 import Badge from './Badge.astro';
+import SectionHeader from './ui/SectionHeader.astro';
 
 interface Props {
   gourmet: GourmetSection;
@@ -13,10 +14,7 @@ const { gourmet } = Astro.props;
   <div class="wrap gourmet-grid">
     <div class="gourmet-head">
       <div>
-        <h2 class="display page-title" id={`${gourmet.id}-titulo`}>
-          <span>{gourmet.title}</span>
-          <span>{gourmet.subtitle}</span>
-        </h2>
+        <SectionHeader title={gourmet.title} subtitle={gourmet.subtitle} id={gourmet.id} />
         <p class="gourmet-sub">{gourmet.intro}</p>
         <div class="gourmet-profiles">
           {gourmet.profiles.map((profile) => (
