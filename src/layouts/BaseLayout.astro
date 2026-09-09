@@ -71,10 +71,13 @@ const {
           }
         });
         
-        // Cover fade out on scroll
+        // Cover fade out on scroll (desktop con puntero fino: en táctil/móvil
+        // el translate por scroll compite con el sticky nav y causa tirones)
         const cover = document.querySelector('.cover') as HTMLElement | null;
         const coverInner = document.querySelector('.cover-inner') as HTMLElement | null;
-        if (cover && coverInner) {
+        const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
+        const smallScreen = window.innerWidth <= 768;
+        if (cover && coverInner && !coarsePointer && !smallScreen) {
           window.addEventListener('scroll', () => {
             const scrollY = window.scrollY;
             const fadeStart = 0;

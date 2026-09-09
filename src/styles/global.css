@@ -388,12 +388,9 @@ main, header, footer, section { position: relative; z-index: 1; }
   --duration-slow: 500ms;
 }
 
-/* === PARALLAX COVER === */
-.cover {
-  background-attachment: fixed;
-  background-position: center 30%;
-  background-size: cover;
-}
+/* === PORTADA EN MÓVIL ===
+   La imagen vive en <img class="cover-bg"> (object-fit: cover). Sin
+   background-attachment: fixed: iOS Safari lo ignora y recorta el fondo. */
 
 /* === SCROLL-TRIGGERED REVEALS === */
 .reveal {
