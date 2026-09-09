@@ -1,0 +1,21 @@
+---
+import type { CatalogMeta } from '../types/catalog';
+
+interface Props {
+  meta: CatalogMeta;
+}
+
+const { meta } = Astro.props;
+---
+<section class="cover" id="portada" aria-label={`Portada ${meta.brand}`}>
+  <div class="cover-inner">
+    <div>
+      <h1>{meta.brand}</h1>
+      <p class="edition">{meta.motto} {meta.edition}</p>
+    </div>
+    <div class="cover-foot">
+      <p class="tag">{meta.tagline}</p>
+      <p class="est">- EST. 2017 -</p>
+    </div>
+  </div>
+</section>

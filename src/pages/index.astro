@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import IndexNav from '../components/IndexNav.astro';
+import Cover from '../components/Cover.astro';
+import TraditionalSection from '../components/TraditionalSection.astro';
+import GourmetSection from '../components/GourmetSection.astro';
+import SpecialsSection from '../components/SpecialsSection.astro';
+import MicrolotSection from '../components/MicrolotSection.astro';
+import StoriesSection from '../components/StoriesSection.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import catalog from '../data/catalog.json';
+---
+<BaseLayout>
+  <IndexNav meta={catalog.meta} />
+  <main id="contenido">
+    <Cover meta={catalog.meta} />
+    <TraditionalSection blend={catalog.traditional} />
+    <GourmetSection gourmet={catalog.gourmet} />
+    <SpecialsSection
+      title={catalog.specialsTitle.title}
+      subtitle={catalog.specialsTitle.subtitle}
+      specials={catalog.specials}
+    />
+    <MicrolotSection microlot={catalog.microlot} />
+    <StoriesSection heading={catalog.meta.storiesHeading} stories={catalog.stories} />
+  </main>
+  <SiteFooter meta={catalog.meta} />
+</BaseLayout>

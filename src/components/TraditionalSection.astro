@@ -1,0 +1,24 @@
+---
+import type { TraditionalBlend } from '../types/catalog';
+import PriceList from './PriceList.astro';
+import Badge from './Badge.astro';
+
+interface Props {
+  blend: TraditionalBlend;
+}
+
+const { blend } = Astro.props;
+---
+<section class="page" id={blend.id} aria-labelledby={`${blend.id}-titulo`}>
+  <div class="wrap tradicional-grid">
+    <Badge name="GAIA" icon="❧" tone="gaia" />
+    <div>
+      <h2 class="display page-title" id={`${blend.id}-titulo`}>
+        <span>{blend.title}</span>
+        <span>{blend.subtitle}</span>
+      </h2>
+      <p class="blend-desc" style="margin-top:1.2rem">{blend.description}</p>
+      <PriceList prices={blend.prices} />
+    </div>
+  </div>
+</section>

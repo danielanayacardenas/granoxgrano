@@ -1,0 +1,17 @@
+---
+import { formatPrice, type Price } from '../types/catalog';
+
+interface Props {
+  prices: Price;
+  align?: 'left' | 'right';
+}
+
+const { prices, align = 'left' } = Astro.props;
+const unit = prices.unit ? ` ${prices.unit}` : '';
+---
+<div class="price-lines" style={align === 'right' ? 'text-align:right' : undefined} aria-label="Precios">
+  <p>MINORISTA: {formatPrice(prices.retail)}{unit}</p>
+  {prices.wholesale !== null && (
+    <p>MAYOREO {prices.wholesaleNote ?? ''}: {formatPrice(prices.wholesale)}{unit}</p>
+  )}
+</div>

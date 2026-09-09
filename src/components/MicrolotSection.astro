@@ -1,0 +1,26 @@
+---
+import { formatPrice, type Microlot } from '../types/catalog';
+import Badge from './Badge.astro';
+
+interface Props {
+  microlot: Microlot;
+}
+
+const { microlot } = Astro.props;
+---
+<section class="page" id={microlot.id} aria-labelledby={`${microlot.id}-titulo`} style="padding-top:0">
+  <div class="wrap microlotes-grid">
+    <Badge name="AETHER" icon="☁" tone="aether" />
+    <div>
+      <h2 class="display" id={`${microlot.id}-titulo`}>
+        <span>{microlot.title}</span>
+        <span>{microlot.subtitle}</span>
+      </h2>
+      <p class="pregunta">Pregunta por existencias</p>
+      <p class="micro-desc">{microlot.description}</p>
+      <div class="price-lines">
+        <p>PRECIO POR {microlot.priceRange.unit} {formatPrice(microlot.priceRange.min)} - {formatPrice(microlot.priceRange.max)}</p>
+      </div>
+    </div>
+  </div>
+</section>

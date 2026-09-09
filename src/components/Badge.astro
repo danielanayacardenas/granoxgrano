@@ -1,0 +1,20 @@
+---
+interface Props {
+  name: string;
+  icon: string;
+  tone: 'gaia' | 'aura' | 'helios' | 'aether';
+  small?: boolean;
+}
+
+const { name, icon, tone, small = false } = Astro.props;
+---
+<div class:list={['badge', tone, { small }]} aria-hidden="true">
+  <div class="b-name">{name}</div>
+  <div style="display:flex; justify-content:space-between; align-items:center; font-size:.55rem; letter-spacing:.1em;">
+    <span>EST</span><span>2017</span>
+  </div>
+  <div class="b-icon">{icon}</div>
+  <div class="b-foot">
+    <span>Grano x Grano</span>
+  </div>
+</div>

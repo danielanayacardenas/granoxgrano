@@ -1,0 +1,51 @@
+---
+import type { GourmetSection } from '../types/catalog';
+import PriceList from './PriceList.astro';
+import Badge from './Badge.astro';
+
+interface Props {
+  gourmet: GourmetSection;
+}
+
+const { gourmet } = Astro.props;
+---
+<section class="page" id={gourmet.id} aria-labelledby={`${gourmet.id}-titulo`}>
+  <div class="wrap gourmet-grid">
+    <div class="gourmet-head">
+      <div>
+        <h2 class="display page-title" id={`${gourmet.id}-titulo`}>
+          <span>{gourmet.title}</span>
+          <span>{gourmet.subtitle}</span>
+        </h2>
+        <p class="gourmet-sub">{gourmet.intro}</p>
+        <div class="gourmet-profiles">
+          {gourmet.profiles.map((profile) => (
+            <div>
+              <h3>{profile.name}:</h3>
+              <dl>
+                <dt>A: </dt><dd>{profile.acidity}</dd>
+                {profile.name === 'Chiapas' ? (
+                  <>
+                    <dt>C: </dt><dd>{profile.body}</dd>
+                    <dt>D: </dt><dd>{profile.sweetness}</dd>
+                  </>
+                ) : (
+                  <>
+                    <dt>D: </dt><dd>{profile.sweetness}</dd>
+                    <dt>C: </dt><dd>{profile.body}</dd>
+                  </>
+                )}
+              </dl>
+            </div>
+          ))}
+        </div>
+        <p class="legend">{gourmet.legend}</p>
+        <PriceList prices={gourmet.prices} />
+      </div>
+      <Badge name="AURA" icon="♨" tone="aura" />
+    </div>
+  </div>
+</section>
+<div class="bean-strip" aria-hidden="true">
+  <img src="/img/franja-frijoles.jpg" alt="" loading="lazy" />
+</div>

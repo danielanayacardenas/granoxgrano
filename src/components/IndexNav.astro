@@ -1,0 +1,27 @@
+---
+import type { CatalogMeta } from '../types/catalog';
+
+interface Props {
+  meta?: Pick<CatalogMeta, 'brand'>;
+}
+
+const { meta = { brand: 'Grano x Grano' } } = Astro.props;
+const links = [
+  { href: '#portada', label: 'Portada' },
+  { href: '#mezcla-tradicional', label: 'Tradicional' },
+  { href: '#mezclas-gourmet', label: 'Gourmet' },
+  { href: '#mezclas-especiales', label: 'Especiales' },
+  { href: '#microlotes-selectos', label: 'Microlotes' },
+  { href: '#historias', label: 'Historias' },
+];
+---
+<header class="index" aria-label="Índice del catálogo">
+  <div class="index-inner">
+    <a class="index-brand" href="#portada">{meta.brand}</a>
+    <nav aria-label="Secciones">
+      {links.map((link) => (
+        <a href={link.href}>{link.label}</a>
+      ))}
+    </nav>
+  </div>
+</header>
