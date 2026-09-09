@@ -4,12 +4,19 @@ interface Props {
   subtitle: string;
   id?: string;
   class?: string;
+  singleLine?: boolean;
 }
 
-const { title, subtitle, id, class: className = 'display page-title' } = Astro.props;
+const { title, subtitle, id, class: className = 'display page-title', singleLine = false } = Astro.props;
 const titleId = id ? `${id}-titulo` : undefined;
 ---
 <h2 class={className} id={titleId}>
-  <span>{title}</span>
-  <span>{subtitle}</span>
+  {singleLine ? (
+    <span>{title} {subtitle}</span>
+  ) : (
+    <>
+      <span>{title}</span>
+      <span>{subtitle}</span>
+    </>
+  )}
 </h2>
