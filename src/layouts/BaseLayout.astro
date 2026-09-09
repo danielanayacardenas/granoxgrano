@@ -18,9 +18,7 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    
-    <!-- Preload critical assets -->
-    <link rel="preload" as="image" href="/img/portada.jpg" fetchpriority="high" />
+    <!-- La imagen de portada usa <Picture> con eager + fetchpriority en Cover.astro -->
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

@@ -1,5 +1,7 @@
 ---
+import { Picture } from 'astro:assets';
 import type { CatalogMeta } from '../types/catalog';
+import portada from '../assets/portada.jpg';
 
 interface Props {
   meta: CatalogMeta;
@@ -8,6 +10,17 @@ interface Props {
 const { meta } = Astro.props;
 ---
 <section class="cover" id="portada" aria-label={`Portada ${meta.brand}`}>
+  <Picture
+    src={portada}
+    formats={['avif', 'webp']}
+    widths={[480, 768]}
+    sizes="100vw"
+    alt=""
+    loading="eager"
+    fetchpriority="high"
+    decoding="async"
+    class="cover-bg"
+  />
   <div class="cover-inner">
     <div class="cover-top">
       <h1 class="cover-title">{meta.title}</h1>
