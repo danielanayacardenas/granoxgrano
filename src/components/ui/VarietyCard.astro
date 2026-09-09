@@ -1,0 +1,56 @@
+---
+import type { SpecialVariety } from '../../types/catalog';
+import PriceList from '../PriceList.astro';
+
+interface Props {
+  item: SpecialVariety;
+  align?: 'left' | 'right';
+}
+
+const { item, align = 'left' } = Astro.props;
+
+function rows(item: SpecialVariety): string[] {
+  const out: string[] = [];
+  if (item.process && (item as { score?: string }).score) {
+    out.push(`${item.process}: ${(item as { score?: string }).score}`);
+  } else if (item.process && item.id === 'chiapas-la-concordia') {
+    out.push(`Proceso: ${item.process}`);
+  } else if (item.process && !['Lavado, fermentado'].includes(item.process)) {
+    out.push(item.process);
+  }
+  if (item.variety) out.push(`Variedad: ${item.variety}`);
+  if (item.mesh) {
+    out.push(item.id === 'veracruz-huatusco' ? `Zaranda: ${item.mesh}` : `Zaranda ${item.mesh}`);
+  }
+  if (item.id === 'nayarit-xalisco') {
+    // Natural ya salió combinado con puntaje arriba
+  } else if (item.process === 'Lavado, fermentado') {
+    out.push(`Proceso: ${item.process}`);
+  }
+  if (item.altitude) out.push(`Altura: ${item.altitude}`);
+  if (item.harvest) out.push(`Cosecha: ${item.harvest}`);
+  if (item.defects) out.push(`Defectos: ${item.defects}`);
+  if (item.aroma) out.push(`Aroma: ${item.aroma}`);
+  if (item.notes) out.push(`Notas: ${item.notes}`);
+  if (item.acidity) out.push(`Acidez: ${item.acidity}${item.body ? ` / Cuerpo: ${item.body}` : ''}`);
+  if (item.species) out.push(`Especie: ${item.species}`);
+  if (item.varieties) out.push(`Variedades: ${item.varieties}`);
+  if (item.origin) out.push(`Origen: ${item.origin}`);
+  if (item.fermentation) out.push(`Fermentación: ${item.fermentation}`);
+  if (item.preparation) out.push(`Preparación: ${item.preparation}`);
+  return out;
+}
+---
+<article class="special-block" aria-label={`${item.region} ${item.farm}`}>
+  <h3 class="variety-region">{item.region}</h3>
+  <p class="variety-farm">{item.farm}</p>
+  <div class="variety-meta">
+    {rows(item).map((row) => <p>{row}</p>)}
+  </div>
+  {item.tastingNotes.length > 0 && (
+    <div class="variety-tasting">
+      {item.tastingNotes.map((note) => <p>{note}</p>)}
+    </div>
+  )}
+  <PriceList prices={item.prices} align={align} />
+</article>

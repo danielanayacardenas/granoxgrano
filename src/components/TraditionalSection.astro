@@ -2,6 +2,7 @@
 import type { TraditionalBlend } from '../types/catalog';
 import PriceList from './PriceList.astro';
 import Badge from './Badge.astro';
+import SectionHeader from './ui/SectionHeader.astro';
 
 interface Props {
   blend: TraditionalBlend;
@@ -9,14 +10,11 @@ interface Props {
 
 const { blend } = Astro.props;
 ---
-<section class="page" id={blend.id} aria-labelledby={`${blend.id}-titulo`}>
+<section class="page reveal" id={blend.id} aria-labelledby={`${blend.id}-titulo`}>
   <div class="wrap tradicional-grid">
-    <Badge name="GAIA" icon="❧" tone="gaia" />
+    <Badge tone="gaia" />
     <div>
-      <h2 class="display page-title" id={`${blend.id}-titulo`}>
-        <span>{blend.title}</span>
-        <span>{blend.subtitle}</span>
-      </h2>
+      <SectionHeader title={blend.title} subtitle={blend.subtitle} id={blend.id} />
       <p class="blend-desc" style="margin-top:1.2rem">{blend.description}</p>
       <PriceList prices={blend.prices} />
     </div>

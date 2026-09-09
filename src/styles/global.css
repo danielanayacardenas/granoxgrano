@@ -127,32 +127,55 @@ main, header, footer, section { position: relative; z-index: 1; }
   min-height: inherit;
   padding: 22vh 1.5rem 7vh;
 }
-.cover h1 {
+.cover-top {
+  text-align: center;
+}
+.cover-title {
   margin: 0;
   font-family: var(--cover-display);
   font-weight: 500;
-  font-size: clamp(3rem, 11vw, 7rem);
-  letter-spacing: 0.06em;
+  font-size: clamp(3.5rem, 12vw, 7rem);
+  letter-spacing: 0.04em;
+  line-height: 1.1;
 }
-.cover .edition {
-  margin: 0.9rem 0 0;
-  font-size: clamp(0.85rem, 2.4vw, 1.05rem);
-  letter-spacing: 0.14em;
+.cover-brand {
+  margin: 0;
+  font-family: var(--cover-display);
   font-weight: 500;
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  opacity: 0.85;
+}
+.cover-subtitle {
+  margin: 0.8rem 0 0;
+  font-family: var(--body);
+  font-size: clamp(0.75rem, 2vw, 1rem);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.8;
 }
 .cover-foot p { margin: 0; }
 .cover-foot .tag {
-  font-size: 0.78rem;
-  letter-spacing: 0.24em;
+  font-size: clamp(0.65rem, 1.8vw, 0.85rem);
+  letter-spacing: 0.2em;
   font-weight: 500;
+  text-transform: uppercase;
 }
 .cover-foot .brand {
   font-family: var(--cover-display);
-  font-size: clamp(1.6rem, 5vw, 2.6rem);
-  letter-spacing: 0.06em;
-  margin-top: 0.2rem;
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  margin-top: 0.3rem;
 }
-.cover-foot .est { font-size: 0.72rem; letter-spacing: 0.2em; opacity: 0.9; }
+.cover-foot .est {
+  font-size: clamp(0.6rem, 1.5vw, 0.75rem);
+  letter-spacing: 0.2em;
+  opacity: 0.9;
+  margin-top: 0.3rem;
+}
 
 /* Secciones planas tipo página */
 .page {
@@ -164,43 +187,23 @@ main, header, footer, section { position: relative; z-index: 1; }
 }
 .page-title span { display: block; }
 
-/* Insignias ovaladas */
-.badge {
-  width: 168px;
-  aspect-ratio: 0.62;
-  border-radius: 999px;
-  display: grid;
-  align-content: space-between;
-  text-align: center;
-  color: var(--cream);
-  padding: 1.1rem 0.7rem;
-  flex: none;
+/* Section title underline */
+.reveal .page-title::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 2px;
+  background: var(--ink);
+  margin-top: 0.5rem;
+  transition: width 0.9s var(--ease-out);
 }
-.badge .b-name {
-  font-family: var(--display);
-  font-size: 1.05rem;
-  letter-spacing: 0.42em;
-  text-indent: 0.42em;
+
+.reveal.visible .page-title::after {
+  width: 100%;
+  transition-delay: 0.3s;
 }
-.badge .b-icon { font-size: 2.4rem; line-height: 1; }
-.badge .b-foot {
-  font-family: var(--display);
-  font-size: 0.72rem;
-  letter-spacing: 0.04em;
-  border-top: 1px solid rgba(245, 235, 214, 0.7);
-  padding-top: 0.4rem;
-  display: grid;
-  gap: 0.1rem;
-}
-.badge .b-foot small { font-family: var(--body); font-size: 0.55rem; letter-spacing: 0.1em; display: flex; justify-content: space-between; }
-.badge.gaia { background: var(--gaia); }
-.badge.aura { background: var(--aura); }
-.badge.helios { background: var(--helios); }
-.badge.aether { background: var(--aether); }
-.badge.small { width: 92px; padding: 0.65rem 0.4rem; }
-.badge.small .b-name { font-size: 0.62rem; }
-.badge.small .b-icon { font-size: 1.3rem; }
-.badge.small .b-foot { font-size: 0.5rem; }
+
+/* Insignias ovaladas — estilos scoped en Badge.astro (.badge-svg) */
 
 /* Mezcla tradicional: insignia izq + texto der (como PDF) */
 .tradicional-grid {
@@ -211,7 +214,7 @@ main, header, footer, section { position: relative; z-index: 1; }
 }
 @media (max-width: 640px) {
   .tradicional-grid { grid-template-columns: 120px 1fr; gap: 1.1rem; }
-  .tradicional-grid .badge { width: 120px; }
+  .tradicional-grid .badge-svg { width: 120px; }
 }
 .blend-desc { font-size: 0.92rem; max-width: 46ch; }
 .price-lines { margin: 1.4rem 0 0; font-weight: 700; font-size: 1.02rem; line-height: 1.7; }
@@ -241,7 +244,7 @@ main, header, footer, section { position: relative; z-index: 1; }
 .legend { font-style: italic; font-weight: 700; font-size: 0.88rem; margin-top: 1.2rem; }
 @media (max-width: 640px) {
   .gourmet-head { grid-template-columns: 1fr 110px; }
-  .gourmet-head .badge { width: 110px; }
+  .gourmet-head .badge-svg { width: 110px; }
 }
 
 /* Franja de frijoles con borde rasgado */
@@ -288,7 +291,7 @@ main, header, footer, section { position: relative; z-index: 1; }
   .especiales-cols .right { text-align: left; }
   .especiales-cols .right .price-lines { text-align: left; }
   .especiales-head { grid-template-columns: 1fr 120px; }
-  .especiales-head .badge { width: 120px; }
+  .especiales-head .badge-svg { width: 120px; }
 }
 
 /* Microlotes */
@@ -304,7 +307,7 @@ main, header, footer, section { position: relative; z-index: 1; }
 .micro-desc { font-size: 0.82rem; max-width: 52ch; }
 @media (max-width: 640px) {
   .microlotes-grid { grid-template-columns: 120px 1fr; gap: 1.1rem; }
-  .microlotes-grid .badge { width: 120px; }
+  .microlotes-grid .badge-svg { width: 120px; }
 }
 
 /* Historias */
@@ -360,6 +363,143 @@ main, header, footer, section { position: relative; z-index: 1; }
 }
 .instagram:hover { text-decoration: underline; }
 
+/* === MOTION TOKENS === */
+:root {
+  /* Easing */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  
+  /* Duration */
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+}
+
+/* === PARALLAX COVER === */
+.cover {
+  background-attachment: fixed;
+  background-position: center 30%;
+  background-size: cover;
+}
+
+/* === SCROLL-TRIGGERED REVEALS === */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity var(--duration-normal) var(--ease-out),
+              transform var(--duration-normal) var(--ease-out);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delays */
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity var(--duration-fast) var(--ease-out),
+              transform var(--duration-fast) var(--ease-out);
+}
+
+.reveal-stagger.visible > *:nth-child(1) { transition-delay: 0ms; opacity: 1; transform: none; }
+.reveal-stagger.visible > *:nth-child(2) { transition-delay: 80ms; opacity: 1; transform: none; }
+.reveal-stagger.visible > *:nth-child(3) { transition-delay: 160ms; opacity: 1; transform: none; }
+.reveal-stagger.visible > *:nth-child(4) { transition-delay: 240ms; opacity: 1; transform: none; }
+.reveal-stagger.visible > *:nth-child(5) { transition-delay: 320ms; opacity: 1; transform: none; }
+
+/* === HOVER EFFECTS === */
+
+/* Badge hover */
+.badge-svg {
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .badge-svg:hover {
+    transform: scale(1.05);
+  }
+}
+
+/* Navigation hover */
+.index nav a {
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+/* Instagram link hover */
+.instagram {
+  transition: opacity var(--duration-fast) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .instagram:hover {
+    opacity: 0.8;
+  }
+}
+
+/* === SCROLL-LINKED ANIMATIONS === */
+@supports (animation-timeline: scroll()) {
+  .badge-svg {
+    animation: badge-appear linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 40%;
+  }
+  
+  @keyframes badge-appear {
+    from { opacity: 0; transform: scale(0.9) rotate(-5deg); }
+    to { opacity: 1; transform: scale(1) rotate(0deg); }
+  }
+}
+
+/* === MICROLOTES STAGGERED SCALE === */
+.microlotes-grid > * {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.5s var(--ease-out), 
+              transform 0.5s var(--ease-out);
+}
+
+.reveal.visible .microlotes-grid > *:nth-child(1) { 
+  transition-delay: 0ms; 
+  opacity: 1; 
+  transform: scale(1); 
+}
+
+.reveal.visible .microlotes-grid > *:nth-child(2) { 
+  transition-delay: 150ms; 
+  opacity: 1; 
+  transform: scale(1); 
+}
+
+/* === REDUCED MOTION === */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  
+  .reveal,
+  .reveal-stagger > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  
+  .reveal .page-title::after {
+    transition: none;
+    width: 100%;
+  }
+  
+  .microlotes-grid > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  
+  .badge-svg {
+    transition: none;
+  }
+  
+  @media (hover: hover) and (pointer: fine) {
+    .badge-svg:hover {
+  }
 }

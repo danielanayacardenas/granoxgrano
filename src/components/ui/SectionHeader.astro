@@ -1,0 +1,15 @@
+---
+interface Props {
+  title: string;
+  subtitle: string;
+  id?: string;
+  class?: string;
+}
+
+const { title, subtitle, id, class: className = 'display page-title' } = Astro.props;
+const titleId = id ? `${id}-titulo` : undefined;
+---
+<h2 class={className} id={titleId}>
+  <span>{title}</span>
+  <span>{subtitle}</span>
+</h2>
