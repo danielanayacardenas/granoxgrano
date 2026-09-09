@@ -18,6 +18,11 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    
+    <!-- Preload critical assets -->
+    <link rel="preload" as="image" href="/img/portada.jpg" fetchpriority="high" />
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -28,5 +33,37 @@ const {
   <body>
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
     <slot />
+    
+    <!-- Scroll-reveal IntersectionObserver -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Check for reduced motion preference
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        
+        if (prefersReducedMotion) {
+          // Show all elements immediately
+          document.querySelectorAll('.reveal').forEach(el => {
+            el.classList.add('visible');
+          });
+          return;
+        }
+        
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+        );
+        
+        document.querySelectorAll('.reveal').forEach(el => {
+          observer.observe(el);
+        });
+      });
+    </script>
   </body>
 </html>
