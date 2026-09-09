@@ -347,12 +347,17 @@ main, header, footer, section { position: relative; z-index: 1; }
 }
 .instagram:hover { text-decoration: underline; }
 
-/* === ANIMATION TOKENS === */
+/* === MOTION TOKENS === */
 :root {
+  /* Easing */
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
-  --duration-fast: 0.3s;
-  --duration-normal: 0.6s;
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  
+  /* Duration */
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
 }
 
 /* === PARALLAX COVER === */
@@ -365,7 +370,7 @@ main, header, footer, section { position: relative; z-index: 1; }
 /* === SCROLL-TRIGGERED REVEALS === */
 .reveal {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(20px);
   transition: opacity var(--duration-normal) var(--ease-out),
               transform var(--duration-normal) var(--ease-out);
 }
@@ -375,11 +380,7 @@ main, header, footer, section { position: relative; z-index: 1; }
   transform: translateY(0);
 }
 
-.reveal-delay-1 { transition-delay: 100ms; }
-.reveal-delay-2 { transition-delay: 200ms; }
-.reveal-delay-3 { transition-delay: 300ms; }
-
-/* Stagger children */
+/* Stagger delays */
 .reveal-stagger > * {
   opacity: 0;
   transform: translateY(16px);
@@ -393,9 +394,37 @@ main, header, footer, section { position: relative; z-index: 1; }
 .reveal-stagger.visible > *:nth-child(4) { transition-delay: 240ms; opacity: 1; transform: none; }
 .reveal-stagger.visible > *:nth-child(5) { transition-delay: 320ms; opacity: 1; transform: none; }
 
+/* === HOVER EFFECTS === */
+
+/* Badge hover */
+.badge-svg {
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .badge-svg:hover {
+    transform: scale(1.05);
+  }
+}
+
+/* Navigation hover */
+.index nav a {
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+/* Instagram link hover */
+.instagram {
+  transition: opacity var(--duration-fast) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .instagram:hover {
+    opacity: 0.8;
+  }
+}
+
 /* === SCROLL-LINKED ANIMATIONS === */
 @supports (animation-timeline: scroll()) {
-  /* Only animate badges on scroll - cover stays visible */
   .badge-svg {
     animation: badge-appear linear both;
     animation-timeline: view();
@@ -412,16 +441,21 @@ main, header, footer, section { position: relative; z-index: 1; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   
-  .reveal {
+  .reveal,
+  .reveal-stagger > * {
     opacity: 1;
     transform: none;
     transition: none;
   }
   
-  .reveal-stagger > * {
-    opacity: 1;
-    transform: none;
+  .badge-svg {
     transition: none;
+  }
+  
+  @media (hover: hover) and (pointer: fine) {
+    .badge-svg:hover {
+      transform: none;
+    }
   }
   
   .cover {

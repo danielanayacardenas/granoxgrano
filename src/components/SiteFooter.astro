@@ -7,7 +7,7 @@ interface Props {
 
 const { meta } = Astro.props;
 ---
-<footer class="footer" aria-label={`Cierre del catálogo ${meta.brand}`}>
+<footer class="footer reveal" aria-label={`Cierre del catálogo ${meta.brand}`}>
   <div class="seal" aria-hidden="true">G</div>
   <p style="margin:.7rem 0 0; font-size:.72rem; letter-spacing:.28em; opacity:.85">{meta.brand} · {meta.motto} {meta.edition}</p>
   <a class="instagram" href={meta.instagram.url} target="_blank" rel="noreferrer">
