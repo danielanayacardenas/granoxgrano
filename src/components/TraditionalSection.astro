@@ -16,7 +16,7 @@ const { blend } = Astro.props;
     <div>
       <SectionHeader title={blend.title} subtitle={blend.subtitle} id={blend.id} />
       <p class="blend-desc" style="margin-top:1.2rem">{blend.description}</p>
-      <PriceList prices={blend.prices} />
+      <PriceList prices={blend.prices} status={blend.status} />
     </div>
   </div>
 </section>

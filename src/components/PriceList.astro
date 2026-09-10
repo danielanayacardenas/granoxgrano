@@ -4,9 +4,10 @@ import { formatPrice, type Price } from '../types/catalog';
 interface Props {
   prices: Price;
   align?: 'left' | 'right';
+  status?: string;
 }
 
-const { prices, align = 'left' } = Astro.props;
+const { prices, align = 'left', status } = Astro.props;
 const unit = prices.unit ? ` ${prices.unit}` : '';
 ---
 <div class="price-lines" style={align === 'right' ? 'text-align:right' : undefined} aria-label="Precios">
@@ -14,4 +15,5 @@ const unit = prices.unit ? ` ${prices.unit}` : '';
   {prices.wholesale !== null && (
     <p>MAYOREO {prices.wholesaleNote ?? ''}: {formatPrice(prices.wholesale)}{unit}</p>
   )}
+  {status && <span class="status-badge">{status}</span>}
 </div>

@@ -18,6 +18,7 @@ export interface TraditionalBlend {
   subtitle: string;
   description: string;
   prices: Price;
+  status?: string;
 }
 
 export interface GourmetSection {
@@ -28,6 +29,7 @@ export interface GourmetSection {
   legend: string;
   profiles: GourmetProfile[];
   prices: Price;
+  status?: string;
 }
 
 export interface SpecialVariety {
@@ -54,6 +56,7 @@ export interface SpecialVariety {
   tastingNotes: string[];
   prices: Price;
   emblem?: string;
+  status?: string;
 }
 
 export interface Microlot {

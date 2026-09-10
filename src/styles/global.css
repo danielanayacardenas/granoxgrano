@@ -312,6 +312,18 @@ main, header, footer, section { position: relative; z-index: 1; }
 .blend-desc { font-size: 0.92rem; max-width: 46ch; }
 .price-lines { margin: 1.4rem 0 0; font-weight: 700; font-size: 1.02rem; line-height: 1.7; }
 .price-lines p { margin: 0; }
+.status-badge {
+  display: inline-block;
+  margin-top: 0.8rem;
+  padding: 0.4rem 0.8rem;
+  background: var(--ink);
+  color: var(--cream);
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
 
 /* Gourmet */
 .gourmet-grid { position: relative; }

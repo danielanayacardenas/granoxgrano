@@ -21,7 +21,8 @@
       "wholesale": 220,
       "unit": "kg",
       "wholesaleNote": "+10kg"
-    }
+    },
+    "status": "TEMPORALMENTE AGOTADO"
   },
   "gourmet": {
     "id": "mezclas-gourmet",
