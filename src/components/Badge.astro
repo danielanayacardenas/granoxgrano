@@ -1,4 +1,10 @@
 ---
+import { Picture } from 'astro:assets';
+import gaia from '../assets/badges/gaia.png';
+import aura from '../assets/badges/aura.png';
+import helios from '../assets/badges/helios.png';
+import aether from '../assets/badges/aether.png';
+
 interface Props {
   tone: 'gaia' | 'aura' | 'helios' | 'aether';
   small?: boolean;
@@ -6,31 +12,58 @@ interface Props {
 
 const { tone, small = false } = Astro.props;
 
-const colors: Record<string, string> = {
-  gaia: '#6A3A1E',
-  aura: '#7E8891',
-  helios: '#6E1B30',
-  aether: '#103E4E',
+const badges = {
+  gaia,
+  aura,
+  helios,
+  aether,
 };
-
-const badgePath = 'M84 2 C132 2 154 36 154 72 L154 198 C154 234 132 268 84 268 C36 268 14 234 14 198 L14 72 C14 36 36 2 84 2 Z';
 ---
-<div class:list={['badge-svg', { small }]} aria-hidden="true">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 168 270" fill="none">
-    <path d={badgePath} fill={colors[tone]}/>
-  </svg>
+<div class:list={['badge-svg', tone, { small }]} aria-hidden="true">
+  <div class="badge-frame">
+    <Picture
+      src={badges[tone]}
+      formats={['avif', 'webp']}
+      fallbackFormat="png"
+      widths={small ? [92] : [120, 136, 168]}
+      sizes={small ? '92px' : '(max-width: 640px) 120px, 136px'}
+      alt=""
+      loading="lazy"
+      decoding="async"
+    />
+  </div>
 </div>
 
 <style>
   .badge-svg {
     width: 168px;
     flex: none;
+    display: flex;
+    justify-content: center;
   }
-  .badge-svg :global(svg) {
+  .badge-frame {
+    width: min(100%, 136px);
+    aspect-ratio: 0.62;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+  }
+  .badge-frame :global(picture) {
+    display: block;
     width: 100%;
-    height: auto;
+    height: 100%;
+  }
+  .badge-frame :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
   }
   .badge-svg.small {
     width: 92px;
+  }
+  .badge-svg.small .badge-frame {
+    width: 100%;
   }
 </style>
