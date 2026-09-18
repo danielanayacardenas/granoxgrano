@@ -129,6 +129,48 @@ html.js .reveal.visible {
   }
 }
 
+/* === COVER ENTRANCE ===
+   One-time rise-in on first paint. html.js-gated so no-JS stays visible. */
+@keyframes cover-rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+html.js .cover-top > *,
+html.js .cover-foot {
+  opacity: 0;
+  animation: cover-rise var(--duration-slow) var(--ease-out) forwards;
+}
+
+html.js .cover-top > *:nth-child(1) { animation-delay: 100ms; }
+html.js .cover-top > *:nth-child(2) { animation-delay: 180ms; }
+html.js .cover-top > *:nth-child(3) { animation-delay: 260ms; }
+html.js .cover-foot { animation-delay: 420ms; }
+
+/* === SPECIALS STAGGER ===
+   Per-block bidirectional reveal; delays assigned in motion.ts (entry-only). */
+.especiales-cols .special-block {
+  opacity: 1;
+}
+
+html.js .especiales-cols .special-block {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity var(--duration-normal) var(--ease-out),
+              transform var(--duration-normal) var(--ease-out);
+}
+
+.especiales-cols .special-block.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Must beat html.js hidden state (higher specificity). */
+html.js .especiales-cols .special-block.visible {
+  opacity: 1;
+  transform: none;
+}
+
 /* === MICROLOTES STAGGERED SCALE === */
 .microlotes-grid > * {
   opacity: 1;
@@ -186,10 +228,19 @@ html.js .microlotes-grid > * {
 
   .story-row,
   html.js .story-row,
-  html.js .story-row.visible {
+  html.js .story-row.visible,
+  .especiales-cols .special-block,
+  html.js .especiales-cols .special-block,
+  html.js .especiales-cols .special-block.visible {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+
+  html.js .cover-top > *,
+  html.js .cover-foot {
+    animation: none;
+    opacity: 1;
   }
 
   .microlotes-grid > *,

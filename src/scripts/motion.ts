@@ -1,6 +1,6 @@
-// Central motion controller: reveal, story stagger, cover scroll.
+// Central motion controller: reveals, stagger groups, cover scroll, active nav.
 // One owner per animation. Progressive enhancement: content is visible
-// by default; `html.js` enables hidden states (see global.css).
+// by default; `html.js` enables hidden states (see motion.css).
 
 function prefersReduced(): boolean {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -9,6 +9,7 @@ function prefersReduced(): boolean {
 function showAll(): void {
   document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'));
   document.querySelectorAll('.story-row').forEach((el) => el.classList.add('visible'));
+  document.querySelectorAll('.especiales-cols .special-block').forEach((el) => el.classList.add('visible'));
 }
 
 function initReveals(motionOK: () => boolean): IntersectionObserver | null {
@@ -38,34 +39,51 @@ function initReveals(motionOK: () => boolean): IntersectionObserver | null {
   return observer;
 }
 
-function initStoryRows(motionOK: () => boolean): IntersectionObserver | null {
-  const storyRows = document.querySelectorAll('.story-row');
-  if (!storyRows.length) return null;
+interface StaggerOptions {
+  threshold?: number;
+  rootMargin?: string;
+  stepMs?: number;
+  maxSteps?: number;
+}
 
-  const storyObserver = new IntersectionObserver(
+// Generic bidirectional stagger: stories, specials, and any future group
+// share one owner pattern. Delays apply on entry only; exits stay instant.
+function initStaggerGroup(
+  itemSelector: string,
+  motionOK: () => boolean,
+  options?: StaggerOptions,
+): IntersectionObserver | null {
+  const items = document.querySelectorAll(itemSelector);
+  if (!items.length) return null;
+  const {
+    threshold = 0.2,
+    rootMargin = '0px 0px -30px 0px',
+    stepMs = 80,
+    maxSteps = 4,
+  } = options ?? {};
+
+  const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         const target = entry.target as HTMLElement;
         if (entry.isIntersecting) {
-          // Entry-only stagger: delay on enter, instant on exit.
-          const index = Number(target.dataset.storyIndex ?? 0);
-          target.style.transitionDelay = `${Math.min(index, 4) * 80}ms`;
-          if (motionOK()) target.classList.add('visible');
-          else target.classList.add('visible');
+          const index = Number(target.dataset.staggerIndex ?? 0);
+          target.style.transitionDelay = `${Math.min(index, maxSteps) * stepMs}ms`;
+          target.classList.add('visible');
         } else {
           target.style.transitionDelay = '0ms';
           if (motionOK()) target.classList.remove('visible');
         }
       });
     },
-    { threshold: 0.2, rootMargin: '0px 0px -30px 0px' },
+    { threshold, rootMargin },
   );
 
-  storyRows.forEach((el, i) => {
-    (el as HTMLElement).dataset.storyIndex = String(i);
-    storyObserver.observe(el);
+  items.forEach((el, i) => {
+    (el as HTMLElement).dataset.staggerIndex = String(i);
+    observer.observe(el);
   });
-  return storyObserver;
+  return observer;
 }
 
 function initCoverScroll(motionOK: () => boolean): (() => void) | null {
@@ -118,6 +136,39 @@ function initCoverScroll(motionOK: () => boolean): (() => void) | null {
   return () => window.removeEventListener('scroll', onScroll);
 }
 
+// Scroll-driven current-section state for the index nav. Derived from the
+// rendered links, so nav and sections can never drift apart. State-only
+// (instant class toggle), safe under reduced motion.
+function initActiveNav(): IntersectionObserver | null {
+  const menu = document.getElementById('index-menu');
+  if (!menu) return null;
+  const links = Array.from(menu.querySelectorAll<HTMLAnchorElement>('a[href^="#"]'));
+  const sections = links
+    .map((link) => document.querySelector(link.hash))
+    .filter((el): el is Element => el !== null);
+  if (!links.length || !sections.length) return null;
+
+  const setActive = (id: string) => {
+    links.forEach((link) => {
+      const active = link.hash === `#${id}`;
+      link.classList.toggle('active', active);
+      if (active) link.setAttribute('aria-current', 'true');
+      else link.removeAttribute('aria-current');
+    });
+  };
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) setActive(entry.target.id);
+      });
+    },
+    { threshold: 0, rootMargin: '-40% 0px -55% 0px' },
+  );
+  sections.forEach((section) => observer.observe(section));
+  return observer;
+}
+
 function initMotion(): void {
   document.documentElement.classList.add('js');
   let motionAllowed = !prefersReduced();
@@ -128,9 +179,13 @@ function initMotion(): void {
 
   const motionOK = () => motionAllowed;
 
-  const revealObserver = motionAllowed ? initReveals(motionOK) : null;
-  // Story rows self-assign .visible on entry even in reduced motion.
-  const storyObserver = initStoryRows(motionOK);
+  const observers: (IntersectionObserver | null)[] = [
+    motionAllowed ? initReveals(motionOK) : null,
+    // Stagger groups self-assign .visible on entry even in reduced motion.
+    initStaggerGroup('.story-row', motionOK),
+    initStaggerGroup('.especiales-cols .special-block', motionOK),
+    initActiveNav(),
+  ];
   if (!motionAllowed) showAll();
 
   const cleanupCover = motionAllowed ? initCoverScroll(motionOK) : null;
@@ -141,8 +196,7 @@ function initMotion(): void {
     .addEventListener('change', (event) => {
       motionAllowed = !event.matches;
       if (!motionAllowed) {
-        revealObserver?.disconnect();
-        storyObserver?.disconnect();
+        observers.forEach((observer) => observer?.disconnect());
         cleanupCover?.();
         showAll();
       } else {

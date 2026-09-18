@@ -89,6 +89,8 @@ main, header, footer, section { position: relative; z-index: 1; }
   white-space: nowrap;
 }
 .index nav a:hover { color: var(--ink); text-decoration: underline; }
+/* Current section, set by motion.ts (aria-current="true"). Instant state. */
+.index nav a.active { color: var(--ink); text-decoration: underline; }
 
 /* Navegación móvil: hamburguesa + panel desplegable.
    Aparece a los 768px, antes de que la tira recorte enlaces (rompe ~690px). */
