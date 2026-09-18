@@ -8,15 +8,20 @@ import SpecialsSection from '../components/SpecialsSection.astro';
 import MicrolotSection from '../components/MicrolotSection.astro';
 import StoriesSection from '../components/StoriesSection.astro';
 import SiteFooter from '../components/SiteFooter.astro';
-import catalog from '../data/catalog.json';
+import rawCatalog from '../data/catalog.json';
+import { getSections, loadCatalog } from '../lib/catalog';
+
+const catalog = loadCatalog(rawCatalog);
+const sections = getSections(catalog);
 ---
-<BaseLayout>
-  <IndexNav meta={catalog.meta} />
+<BaseLayout meta={catalog.meta}>
+  <IndexNav meta={catalog.meta} sections={sections} />
   <main id="contenido">
     <Cover meta={catalog.meta} />
     <TraditionalSection blend={catalog.traditional} />
     <GourmetSection gourmet={catalog.gourmet} />
     <SpecialsSection
+      id={catalog.specialsTitle.id}
       title={catalog.specialsTitle.title}
       subtitle={catalog.specialsTitle.subtitle}
       specials={catalog.specials}

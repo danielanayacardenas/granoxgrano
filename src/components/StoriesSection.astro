@@ -8,13 +8,6 @@ interface Props {
 }
 
 const { heading, stories } = Astro.props;
-
-const tones: Record<string, 'gaia' | 'aura' | 'helios' | 'aether'> = {
-  gaia: 'gaia',
-  aura: 'aura',
-  helios: 'helios',
-  aether: 'aether',
-};
 ---
 <section class="page historias reveal" id="historias" aria-labelledby="historias-titulo">
   <div class="wrap">
@@ -24,7 +17,7 @@ const tones: Record<string, 'gaia' | 'aura' | 'helios' | 'aether'> = {
       <div>
         <div class="story-row">
           <Badge
-            tone={tones[story.id] ?? 'gaia'}
+            tone={story.tone}
             small
           />
           <div>

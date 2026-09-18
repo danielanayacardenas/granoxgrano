@@ -1,12 +1,13 @@
 ---
 import { Picture } from 'astro:assets';
+import type { BadgeTone } from '../types/catalog';
 import gaia from '../assets/badges/gaia.png';
 import aura from '../assets/badges/aura.png';
 import helios from '../assets/badges/helios.png';
 import aether from '../assets/badges/aether.png';
 
 interface Props {
-  tone: 'gaia' | 'aura' | 'helios' | 'aether';
+  tone: BadgeTone;
   small?: boolean;
 }
 

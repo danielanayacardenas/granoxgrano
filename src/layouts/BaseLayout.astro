@@ -1,15 +1,23 @@
 ---
 import '../styles/global.css';
+import type { CatalogMeta } from '../types/catalog';
 
 interface Props {
   title?: string;
   description?: string;
+  meta?: CatalogMeta;
 }
 
-const {
-  title = 'Grano x Grano — Catálogo Café Cultura 2026',
-  description = 'Grano x Grano, Café Cultura 2026: mezclas tradicionales, gourmet, especiales, microlotes selectos e historias que se tuestan.',
-} = Astro.props;
+const { meta, title: titleOverride, description: descriptionOverride } = Astro.props;
+
+const title =
+  titleOverride ??
+  meta?.seoTitle ??
+  `${meta?.brand ?? 'Grano x Grano'} — ${meta?.title ?? 'Catálogo'} ${meta?.motto ?? 'Café Cultura'} ${meta?.edition ?? '2026'}`;
+const description =
+  descriptionOverride ??
+  meta?.seoDescription ??
+  'Grano x Grano, Café Cultura 2026: mezclas tradicionales, gourmet, especiales, microlotes selectos e historias que se tuestan.';
 ---
 <!doctype html>
 <html lang="es">
@@ -19,7 +27,8 @@ const {
     <title>{title}</title>
     <meta name="description" content={description} />
     <!-- La imagen de portada usa <Picture> con eager + fetchpriority en Cover.astro -->
-    
+    <script is:inline>document.documentElement.classList.add('js');</script>
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -31,103 +40,7 @@ const {
   <body>
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
     <slot />
-    
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const revealElements = document.querySelectorAll('.reveal');
-        
-        if (prefersReducedMotion) {
-          revealElements.forEach(el => el.classList.add('visible'));
-          document.querySelectorAll('.story-row').forEach(el => el.classList.add('visible'));
-          return;
-        }
-        
-        // Immediately show elements already in viewport
-        revealElements.forEach(el => {
-          const rect = el.getBoundingClientRect();
-          if (rect.top < window.innerHeight && rect.bottom > 0) {
-            el.classList.add('visible');
-          }
-        });
-        // Bidirectional reveal: lines expand scrolling down,
-        // retract scrolling up. Transitions retarget mid-motion
-        // so reversals stay smooth.
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-              } else {
-                entry.target.classList.remove('visible');
-              }
-            });
-          },
-          {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-          }
-        );
 
-        revealElements.forEach(el => {
-          observer.observe(el);
-        });
-
-        // Story rows: individual bidirectional reveal with stagger
-        const storyRows = document.querySelectorAll('.story-row');
-        const storyObserver = new IntersectionObserver(
-          (entries) => {
-            entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-              } else {
-                entry.target.classList.remove('visible');
-              }
-            });
-          },
-          {
-            threshold: 0.2,
-            rootMargin: '0px 0px -30px 0px'
-          }
-        );
-
-        storyRows.forEach((el, i) => {
-          (el as HTMLElement).style.transitionDelay = `${Math.min(i, 4) * 80}ms`;
-          storyObserver.observe(el);
-        });
-        
-        // Cover fade out on scroll (desktop con puntero fino: en táctil/móvil
-        // el translate por scroll compite con el sticky nav y causa tirones)
-        const cover = document.querySelector('.cover') as HTMLElement | null;
-        const coverInner = document.querySelector('.cover-inner') as HTMLElement | null;
-        const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
-        const smallScreen = window.innerWidth <= 768;
-        if (cover && coverInner && !coarsePointer && !smallScreen) {
-          const coverTitle = document.querySelector('.cover-title') as HTMLElement | null;
-          const coverBrand = document.querySelector('.cover-brand') as HTMLElement | null;
-          const coverSubtitle = document.querySelector('.cover-subtitle') as HTMLElement | null;
-          window.addEventListener('scroll', () => {
-            const scrollY = window.scrollY;
-            const fadeStart = 0;
-            const fadeEnd = window.innerHeight * 0.5;
-            const opacity = Math.max(0, 1 - (scrollY - fadeStart) / (fadeEnd - fadeStart));
-            coverInner.style.opacity = String(opacity);
-            coverInner.style.transform = `translateY(${scrollY * 0.3}px)`;
-            // Letter-spacing expansion: factor 0 at top, 1 at one viewport.
-            // Scroll down expands, scroll up retracts — transitions retarget.
-            const expandFactor = Math.min(1, Math.max(0, scrollY / window.innerHeight));
-            if (coverTitle) {
-              coverTitle.style.letterSpacing = `${0.04 + expandFactor * 0.26}em`;
-            }
-            if (coverBrand) {
-              coverBrand.style.letterSpacing = `${0.04 + expandFactor * 0.16}em`;
-            }
-            if (coverSubtitle) {
-              coverSubtitle.style.letterSpacing = `${0.18 + expandFactor * 0.17}em`;
-            }
-          }, { passive: true });
-        }
-      });
-    </script>
+    <script src="../scripts/motion.ts"></script>
   </body>
 </html>

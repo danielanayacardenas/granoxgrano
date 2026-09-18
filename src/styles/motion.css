@@ -1,0 +1,282 @@
+/* Motion: reveals, rule expansions, hover, scroll-linked animation, reduced motion.
+   Static shapes live in base.css; hidden states are scoped to html.js so
+   content stays visible without JS. Imported after base.css. */
+
+/* Section title underline — GPU scaleX, bidirectional with scroll. */
+html.js .reveal .page-title::after {
+  transform: scaleX(0);
+  transition: transform var(--duration-line) var(--ease-out);
+}
+
+.reveal.visible .page-title::after {
+  transform: scaleX(1);
+  transition-delay: var(--duration-normal);
+}
+
+/* Must beat html.js hidden state (higher specificity). */
+html.js .reveal.visible .page-title::after {
+  transform: scaleX(1);
+}
+
+/* Historias rules */
+html.js .long-rule {
+  transform: scaleX(0);
+  transition: transform var(--duration-rule) var(--ease-out);
+}
+.reveal.visible .long-rule {
+  transform: scaleX(1);
+  transition-delay: var(--duration-fast);
+}
+
+html.js .reveal.visible .long-rule {
+  transform: scaleX(1);
+}
+html.js .story-row {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity var(--duration-normal) var(--ease-out),
+              transform var(--duration-normal) var(--ease-out);
+}
+.story-row.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+html.js .story-row.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+html.js .short-rule {
+  transform: scaleX(0);
+  transition: transform var(--duration-slow) var(--ease-out);
+}
+/* Single owner: short-rule follows its story-row, not the parent section. */
+.story-row.visible + .short-rule {
+  transform: scaleX(1);
+  transition-delay: var(--duration-fast);
+}
+
+html.js .story-row.visible + .short-rule {
+  transform: scaleX(1);
+}
+
+/* === SCROLL-TRIGGERED REVEALS ===
+   Progressive enhancement: visible by default, hidden only when html.js. */
+.reveal {
+  opacity: 1;
+  transform: none;
+}
+
+html.js .reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity var(--duration-normal) var(--ease-out),
+              transform var(--duration-normal) var(--ease-out);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Must beat html.js hidden state (0,2,1 vs 0,2,0). */
+html.js .reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* === HOVER EFFECTS === */
+
+/* Badge hover */
+.badge-svg {
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .badge-svg:hover {
+    transform: scale(1.05);
+  }
+}
+
+/* Navigation hover */
+.index nav a {
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+/* Instagram link hover */
+.instagram {
+  transition: opacity var(--duration-fast) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .instagram:hover {
+    opacity: 0.8;
+  }
+}
+
+/* === SCROLL-LINKED ANIMATIONS ===
+   Progressive enhancement: no animation by default; view() only when supported. */
+@supports (animation-timeline: view()) {
+  html.js .badge-svg {
+    animation: badge-appear linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 40%;
+  }
+
+  @keyframes badge-appear {
+    from { opacity: 0; transform: scale(0.9) rotate(-5deg); }
+    to { opacity: 1; transform: scale(1) rotate(0deg); }
+  }
+}
+
+/* === COVER ENTRANCE ===
+   One-time rise-in on first paint. html.js-gated so no-JS stays visible. */
+@keyframes cover-rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+html.js .cover-top > *,
+html.js .cover-foot {
+  opacity: 0;
+  animation: cover-rise var(--duration-slow) var(--ease-out) forwards;
+}
+
+html.js .cover-top > *:nth-child(1) { animation-delay: 100ms; }
+html.js .cover-top > *:nth-child(2) { animation-delay: 180ms; }
+html.js .cover-top > *:nth-child(3) { animation-delay: 260ms; }
+html.js .cover-foot { animation-delay: 420ms; }
+
+/* === SPECIALS STAGGER ===
+   Per-block bidirectional reveal; delays assigned in motion.ts (entry-only). */
+.especiales-cols .special-block {
+  opacity: 1;
+}
+
+html.js .especiales-cols .special-block {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity var(--duration-normal) var(--ease-out),
+              transform var(--duration-normal) var(--ease-out);
+}
+
+.especiales-cols .special-block.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Must beat html.js hidden state (higher specificity). */
+html.js .especiales-cols .special-block.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* === MICROLOTES STAGGERED SCALE === */
+.microlotes-grid > * {
+  opacity: 1;
+  transform: none;
+}
+
+html.js .microlotes-grid > * {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity var(--duration-slow) var(--ease-out),
+              transform var(--duration-slow) var(--ease-out);
+}
+
+.reveal.visible .microlotes-grid > *:nth-child(1) {
+  transition-delay: 0ms;
+  opacity: 1;
+  transform: scale(1);
+}
+
+.reveal.visible .microlotes-grid > *:nth-child(2) {
+  transition-delay: var(--duration-fast);
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* === REDUCED MOTION ===
+   html.js variants included: base rules lose to html.js hidden states. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  .reveal,
+  html.js .reveal,
+  html.js .reveal.visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .reveal .page-title::after,
+  html.js .reveal .page-title::after,
+  html.js .reveal.visible .page-title::after {
+    transition: none;
+    transform: scaleX(1);
+  }
+
+  .long-rule,
+  .short-rule,
+  html.js .long-rule,
+  html.js .short-rule,
+  html.js .reveal.visible .long-rule,
+  html.js .story-row.visible + .short-rule {
+    transition: none;
+    transform: scaleX(1);
+  }
+
+  .story-row,
+  html.js .story-row,
+  html.js .story-row.visible,
+  .especiales-cols .special-block,
+  html.js .especiales-cols .special-block,
+  html.js .especiales-cols .special-block.visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  html.js .cover-top > *,
+  html.js .cover-foot {
+    animation: none;
+    opacity: 1;
+  }
+
+  .microlotes-grid > *,
+  html.js .microlotes-grid > *,
+  html.js .reveal.visible .microlotes-grid > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .badge-svg,
+  html.js .badge-svg {
+    transition: none;
+    animation: none;
+  }
+
+  .cover-title,
+  .cover-brand,
+  .cover-subtitle {
+    transition: none;
+  }
+
+  .cover-inner {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .index nav,
+  .index.open nav,
+  .menu-btn span {
+    transition: none;
+  }
+  
+  @media (hover: hover) and (pointer: fine) {
+    .badge-svg:hover {
+      transform: none;
+    }
+  }
+}
