@@ -108,20 +108,26 @@ export function getSpecialsColumns(specials: SpecialVariety[]): {
   right: SpecialVariety[];
 } {
   const withMeta = specials.filter((s) => s.column === 'left' || s.column === 'right');
-  if (withMeta.length === specials.length && specials.length > 0) {
-    const sortByOrder = (a: SpecialVariety, b: SpecialVariety) =>
-      (a.order ?? 0) - (b.order ?? 0);
+  if (withMeta.length === 0) {
+    // Fallback: preserve data order, balanced split. Supports N products.
+    const mid = Math.ceil(specials.length / 2);
     return {
-      left: withMeta.filter((s) => s.column === 'left').sort(sortByOrder),
-      right: withMeta.filter((s) => s.column === 'right').sort(sortByOrder),
+      left: specials.slice(0, mid),
+      right: specials.slice(mid),
     };
   }
-  // Fallback: preserve data order, balanced split. Supports N products.
-  const mid = Math.ceil(specials.length / 2);
-  return {
-    left: specials.slice(0, mid),
-    right: specials.slice(mid),
-  };
+  // Place annotated items first, then deal unassigned ones to the shorter
+  // column so partially-annotated catalogs still render every product.
+  const sortByOrder = (a: SpecialVariety, b: SpecialVariety) =>
+    (a.order ?? 0) - (b.order ?? 0);
+  const left = withMeta.filter((s) => s.column === 'left').sort(sortByOrder);
+  const right = withMeta.filter((s) => s.column === 'right').sort(sortByOrder);
+  for (const item of specials) {
+    if (item.column === 'left' || item.column === 'right') continue;
+    if (left.length <= right.length) left.push(item);
+    else right.push(item);
+  }
+  return { left, right };
 }
 
 // --- Sections / nav: single descriptor source ---
@@ -147,13 +153,175 @@ export function getSections(catalog: Catalog): SectionDescriptor[] {
   ];
 }
 
-// --- Normalization / validation boundary ---
+// --- Validation: fail fast with paths, so hand-edited JSON mistakes surface at build ---
+
+const TONES: BadgeTone[] = ['gaia', 'aura', 'helios', 'aether'];
+
+function fail(path: string, message: string): never {
+  throw new Error(`Invalid catalog at ${path}: ${message}`);
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+function reqString(obj: Record<string, unknown>, key: string, path: string): void {
+  if (typeof obj[key] !== 'string' || (obj[key] as string).trim() === '') {
+    fail(`${path}.${key}`, 'expected non-empty string');
+  }
+}
+
+function reqNumber(obj: Record<string, unknown>, key: string, path: string): void {
+  const value = obj[key];
+  if (typeof value !== 'number' || !Number.isFinite(value) || value < 0) {
+    fail(`${path}.${key}`, 'expected finite number >= 0');
+  }
+}
+
+function checkPrice(raw: unknown, path: string): void {
+  if (!isRecord(raw)) fail(path, 'expected price object');
+  reqNumber(raw, 'retail', path);
+  const wholesale = raw.wholesale;
+  if (wholesale !== null && wholesale !== undefined) {
+    if (typeof wholesale !== 'number' || !Number.isFinite(wholesale) || wholesale < 0) {
+      fail(`${path}.wholesale`, 'expected finite number >= 0 or null');
+    }
+  }
+  for (const key of ['unit', 'wholesaleNote']) {
+    if (raw[key] !== undefined && typeof raw[key] !== 'string') {
+      fail(`${path}.${key}`, 'expected string');
+    }
+  }
+}
+
+const OPTIONAL_TEXT_KEYS = [
+  'process',
+  'score',
+  'variety',
+  'varieties',
+  'altitude',
+  'harvest',
+  'mesh',
+  'defects',
+  'aroma',
+  'notes',
+  'acidity',
+  'body',
+  'species',
+  'origin',
+  'fermentation',
+  'preparation',
+  'emblem',
+  'status',
+];
+
+function checkSpecial(raw: unknown, path: string, seenIds: Set<string>): void {
+  if (!isRecord(raw)) fail(path, 'expected product object');
+  reqString(raw, 'id', path);
+  const id = raw.id as string;
+  if (seenIds.has(id)) fail(`${path}.id`, `duplicate product id "${id}"`);
+  seenIds.add(id);
+  reqString(raw, 'region', path);
+  reqString(raw, 'farm', path);
+  checkPrice(raw.prices, `${path}.prices`);
+  if (raw.column !== undefined && raw.column !== 'left' && raw.column !== 'right') {
+    fail(`${path}.column`, 'expected "left" or "right"');
+  }
+  if (raw.order !== undefined && typeof raw.order !== 'number') {
+    fail(`${path}.order`, 'expected number');
+  }
+  if (raw.tastingNotes !== undefined && !Array.isArray(raw.tastingNotes)) {
+    fail(`${path}.tastingNotes`, 'expected array');
+  }
+  for (const key of OPTIONAL_TEXT_KEYS) {
+    if (raw[key] !== undefined && typeof raw[key] !== 'string') {
+      fail(`${path}.${key}`, 'expected string');
+    }
+  }
+}
+
+function checkStory(raw: unknown, path: string): void {
+  if (!isRecord(raw)) fail(path, 'expected story object');
+  for (const key of ['id', 'name', 'title', 'tagline', 'description']) {
+    reqString(raw, key, path);
+  }
+  // Missing tone is allowed (normalizeCatalog defaults it); wrong values are not.
+  if (raw.tone !== undefined && !TONES.includes(raw.tone as BadgeTone)) {
+    fail(`${path}.tone`, `expected one of ${TONES.join(', ')}`);
+  }
+}
+
+export function validateCatalog(raw: unknown): asserts raw is Catalog {
+  if (!isRecord(raw)) fail('catalog', 'expected object');
+
+  const meta = raw.meta;
+  if (!isRecord(meta)) fail('meta', 'expected object');
+  for (const key of ['title', 'brand', 'motto', 'edition', 'tagline', 'storiesHeading']) {
+    reqString(meta, key, 'meta');
+  }
+  const instagram = meta.instagram;
+  if (!isRecord(instagram)) fail('meta.instagram', 'expected object');
+  reqString(instagram, 'handle', 'meta.instagram');
+  reqString(instagram, 'url', 'meta.instagram');
+
+  const traditional = raw.traditional;
+  if (!isRecord(traditional)) fail('traditional', 'expected object');
+  for (const key of ['id', 'title', 'subtitle', 'description']) {
+    reqString(traditional, key, 'traditional');
+  }
+  checkPrice(traditional.prices, 'traditional.prices');
+
+  const gourmet = raw.gourmet;
+  if (!isRecord(gourmet)) fail('gourmet', 'expected object');
+  for (const key of ['id', 'title', 'subtitle', 'intro', 'legend']) {
+    reqString(gourmet, key, 'gourmet');
+  }
+  if (!Array.isArray(gourmet.profiles)) fail('gourmet.profiles', 'expected array');
+  gourmet.profiles.forEach((profile: unknown, i: number) => {
+    if (!isRecord(profile)) fail(`gourmet.profiles[${i}]`, 'expected object');
+    for (const key of ['name', 'acidity', 'sweetness', 'body']) {
+      reqString(profile, key, `gourmet.profiles[${i}]`);
+    }
+  });
+  checkPrice(gourmet.prices, 'gourmet.prices');
+
+  const specialsTitle = raw.specialsTitle;
+  if (!isRecord(specialsTitle)) fail('specialsTitle', 'expected object');
+  for (const key of ['title', 'subtitle']) {
+    reqString(specialsTitle, key, 'specialsTitle');
+  }
+  if (specialsTitle.id !== undefined && typeof specialsTitle.id !== 'string') {
+    fail('specialsTitle.id', 'expected string');
+  }
+
+  if (!Array.isArray(raw.specials)) fail('specials', 'expected array');
+  const seenIds = new Set<string>();
+  raw.specials.forEach((item: unknown, i: number) => checkSpecial(item, `specials[${i}]`, seenIds));
+
+  const microlot = raw.microlot;
+  if (!isRecord(microlot)) fail('microlot', 'expected object');
+  for (const key of ['id', 'title', 'subtitle', 'description']) {
+    reqString(microlot, key, 'microlot');
+  }
+  const priceRange = microlot.priceRange;
+  if (!isRecord(priceRange)) fail('microlot.priceRange', 'expected object');
+  reqNumber(priceRange, 'min', 'microlot.priceRange');
+  reqNumber(priceRange, 'max', 'microlot.priceRange');
+  if ((priceRange.min as number) > (priceRange.max as number)) {
+    fail('microlot.priceRange', 'expected min <= max');
+  }
+
+  if (!Array.isArray(raw.stories)) fail('stories', 'expected array');
+  raw.stories.forEach((story: unknown, i: number) => checkStory(story, `stories[${i}]`));
+}
+
+// --- Normalization boundary (runs after validation, so shapes are trusted) ---
 
 export function normalizeSpecial(raw: SpecialVariety): SpecialVariety {
   return {
     ...raw,
     tastingNotes: Array.isArray(raw.tastingNotes) ? raw.tastingNotes : [],
-    prices: normalizePrice(raw.prices as Price),
+    prices: normalizePrice(raw.prices),
   };
 }
 
@@ -173,9 +341,9 @@ export function normalizeCatalog(raw: Catalog): Catalog {
       prices: normalizePrice(raw.gourmet.prices),
     },
     specialsTitle: {
-      id: 'mezclas-especiales',
-      ...(raw.specialsTitle as { id?: string }),
-    } as Catalog['specialsTitle'],
+      ...raw.specialsTitle,
+      id: (raw.specialsTitle as { id?: string }).id ?? 'mezclas-especiales',
+    },
     specials: raw.specials.map(normalizeSpecial),
     stories: (raw.stories ?? []).map((story) => ({
       ...story,
@@ -185,12 +353,8 @@ export function normalizeCatalog(raw: Catalog): Catalog {
 }
 
 export function loadCatalog(raw: unknown): Catalog {
-  const data = raw as Catalog;
-  if (!data || typeof data !== 'object') throw new Error('Invalid catalog data');
-  if (!data.meta || !data.traditional || !data.gourmet || !Array.isArray(data.specials)) {
-    throw new Error('Catalog missing required sections');
-  }
-  return normalizeCatalog(data);
+  validateCatalog(raw);
+  return normalizeCatalog(raw);
 }
 
 export function sentence(text: string): string {

@@ -1,5 +1,6 @@
 import { expect, test } from 'bun:test';
 import type { Catalog, SpecialVariety } from '../types/catalog';
+import rawCatalog from '../data/catalog.json';
 import {
   formatMoney,
   formatMoneyRange,
@@ -98,6 +99,17 @@ test('getSpecialsColumns falls back to balanced data order for N products', () =
   expect(right.map((s) => s.id)).toEqual(['3']);
 });
 
+test('getSpecialsColumns deals unassigned items to the shorter column', () => {
+  const specials = [
+    variety({ id: 'a', column: 'left', order: 0 }),
+    variety({ id: 'b' }),
+    variety({ id: 'c', column: 'right', order: 0 }),
+  ];
+  const { left, right } = getSpecialsColumns(specials);
+  expect(left.map((s) => s.id)).toEqual(['a', 'b']);
+  expect(right.map((s) => s.id)).toEqual(['c']);
+});
+
 test('getSections derives hrefs from catalog ids', () => {
   const catalog = loadCatalog({
     meta: { title: 'T', brand: 'B', motto: 'M', edition: '2026', tagline: 'X', instagram: { handle: '@b', url: 'https://x' }, storiesHeading: 'H' },
@@ -156,4 +168,41 @@ test('loadCatalog defaults missing story tones to gaia', () => {
     stories: [{ id: 'x', name: 'X', title: 'T', tagline: 't', description: 'd' }],
   } as unknown as Catalog);
   expect(catalog.stories[0].tone).toBe('gaia');
+});
+
+test('real catalog.json validates and normalizes', () => {
+  const catalog = loadCatalog(rawCatalog);
+  expect(catalog.specials.length).toBe(4);
+  expect(catalog.stories.map((s) => s.tone)).toEqual(['gaia', 'aura', 'helios', 'aether']);
+});
+
+test('loadCatalog reports the offending path', () => {
+  expect(() => loadCatalog({})).toThrow('meta');
+  expect(() =>
+    loadCatalog({
+      ...(rawCatalog as unknown as Record<string, unknown>),
+      traditional: { ...(rawCatalog as unknown as { traditional: Record<string, unknown> }).traditional, description: '' },
+    }),
+  ).toThrow('traditional.description');
+  expect(() =>
+    loadCatalog({
+      ...(rawCatalog as unknown as Record<string, unknown>),
+      specials: [
+        ...(rawCatalog as unknown as { specials: unknown[] }).specials,
+        (rawCatalog as unknown as { specials: Record<string, unknown>[] }).specials[0],
+      ],
+    }),
+  ).toThrow('duplicate product id');
+  expect(() =>
+    loadCatalog({
+      ...(rawCatalog as unknown as Record<string, unknown>),
+      stories: [{ id: 'x', name: 'X', title: 'T', tagline: 't', description: 'd', tone: 'fuego' }],
+    }),
+  ).toThrow('stories[0].tone');
+  expect(() =>
+    loadCatalog({
+      ...(rawCatalog as unknown as Record<string, unknown>),
+      microlot: { ...(rawCatalog as unknown as { microlot: Record<string, unknown> }).microlot, priceRange: { min: 5, max: 2, unit: 'KG' } },
+    }),
+  ).toThrow('microlot.priceRange');
 });
