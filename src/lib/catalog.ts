@@ -1,4 +1,4 @@
-import type { Catalog, Price, SpecialVariety } from '../types/catalog';
+import type { BadgeTone, Catalog, Price, SpecialVariety } from '../types/catalog';
 
 /**
  * Canonical catalog helpers.
@@ -36,6 +36,14 @@ export function formatPrice(value: number): string {
 
 export function formatMoney(value: number): string {
   return `${formatPrice(value)} MXN`;
+}
+
+export function formatPriceRange(min: number, max: number): string {
+  return `${formatPrice(min)} — ${formatPrice(max)}`;
+}
+
+export function formatMoneyRange(min: number, max: number): string {
+  return `${formatMoney(min)} – ${formatMoney(max)}`;
 }
 
 export function getRetailLine(prices: Price): string {
@@ -168,7 +176,10 @@ export function normalizeCatalog(raw: Catalog): Catalog {
       ...(raw.specialsTitle as { id?: string }),
     } as Catalog['specialsTitle'],
     specials: raw.specials.map(normalizeSpecial),
-    stories: raw.stories ?? [],
+    stories: (raw.stories ?? []).map((story) => ({
+      ...story,
+      tone: (story as { tone?: BadgeTone }).tone ?? 'gaia',
+    })),
   };
 }
 

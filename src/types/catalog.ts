@@ -70,12 +70,16 @@ export interface Microlot {
   priceRange: { min: number; max: number; unit: string };
 }
 
+export type BadgeTone = 'gaia' | 'aura' | 'helios' | 'aether';
+
 export interface Story {
   id: string;
   name: string;
   title: string;
   tagline: string;
   description: string;
+  /** Badge artwork tone, driven by data instead of an ID map in StoriesSection. */
+  tone: BadgeTone;
 }
 
 export interface CatalogMeta {

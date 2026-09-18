@@ -80,6 +80,10 @@ function initCoverScroll(motionOK: () => boolean): (() => void) | null {
   const coverSubtitle = document.querySelector('.cover-subtitle') as HTMLElement | null;
 
   let ticking = false;
+  // letter-spacing triggers layout on every write; only touch it when the
+  // factor moved enough to be visible. Opacity/transform stay per-frame
+  // (compositor-only).
+  let lastExpand = -1;
   const update = () => {
     ticking = false;
     if (!motionOK()) {
@@ -88,6 +92,7 @@ function initCoverScroll(motionOK: () => boolean): (() => void) | null {
       if (coverTitle) coverTitle.style.letterSpacing = '';
       if (coverBrand) coverBrand.style.letterSpacing = '';
       if (coverSubtitle) coverSubtitle.style.letterSpacing = '';
+      lastExpand = -1;
       return;
     }
     const scrollY = window.scrollY;
@@ -96,6 +101,8 @@ function initCoverScroll(motionOK: () => boolean): (() => void) | null {
     coverInner.style.opacity = String(opacity);
     coverInner.style.transform = `translateY(${scrollY * 0.3}px)`;
     const expandFactor = Math.min(1, Math.max(0, scrollY / window.innerHeight));
+    if (Math.abs(expandFactor - lastExpand) < 0.004) return;
+    lastExpand = expandFactor;
     if (coverTitle) coverTitle.style.letterSpacing = `${0.04 + expandFactor * 0.26}em`;
     if (coverBrand) coverBrand.style.letterSpacing = `${0.04 + expandFactor * 0.16}em`;
     if (coverSubtitle) coverSubtitle.style.letterSpacing = `${0.18 + expandFactor * 0.17}em`;

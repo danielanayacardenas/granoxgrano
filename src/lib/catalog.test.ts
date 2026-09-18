@@ -2,7 +2,9 @@ import { expect, test } from 'bun:test';
 import type { Catalog, SpecialVariety } from '../types/catalog';
 import {
   formatMoney,
+  formatMoneyRange,
   formatPrice,
+  formatPriceRange,
   getPriceUnit,
   getSections,
   getSpecialsColumns,
@@ -128,4 +130,22 @@ test('loadCatalog throws on missing sections and normalizes valid input', () => 
 
 test('sentence capitalizes first letter and lowercases the rest', () => {
   expect(sentence('LEGADO QUE SE CULTIVA')).toBe('Legado que se cultiva');
+});
+
+test('formatPriceRange and formatMoneyRange join min and max', () => {
+  expect(formatPriceRange(600, 1200)).toBe('$600.00 — $1,200.00');
+  expect(formatMoneyRange(600, 1200)).toBe('$600.00 MXN – $1,200.00 MXN');
+});
+
+test('loadCatalog defaults missing story tones to gaia', () => {
+  const catalog = loadCatalog({
+    meta: { title: 'T', brand: 'B', motto: 'M', edition: '2026', tagline: 'X', instagram: { handle: '@b', url: 'https://x' }, storiesHeading: 'H' },
+    traditional: { id: 't', title: 'A', subtitle: 'B', description: 'd', prices: { retail: 1, wholesale: null } },
+    gourmet: { id: 'g', title: 'A', subtitle: 'B', intro: 'i', legend: 'l', profiles: [], prices: { retail: 1, wholesale: null } },
+    specialsTitle: { id: 'esp', title: 'A', subtitle: 'B' },
+    specials: [],
+    microlot: { id: 'm', title: 'A', subtitle: 'B', description: 'd', priceRange: { min: 1, max: 2, unit: 'KG' } },
+    stories: [{ id: 'x', name: 'X', title: 'T', tagline: 't', description: 'd' }],
+  } as unknown as Catalog);
+  expect(catalog.stories[0].tone).toBe('gaia');
 });

@@ -2,6 +2,7 @@ import rawCatalog from '../src/data/catalog.json';
 import type { Price } from '../src/types/catalog';
 import {
   formatMoney,
+  formatMoneyRange,
   getPriceUnit,
   getVarietyRowsForWhatsApp,
   hasWholesale,
@@ -65,7 +66,7 @@ const lines: string[] = [
   `☕ *${data.microlot.title} ${data.microlot.subtitle} · AETHER*`,
   data.microlot.description,
   'Pregunta por existencias',
-  `• Rango por kg: ${money(data.microlot.priceRange.min)} – ${money(data.microlot.priceRange.max)}`,
+  `• Rango por ${data.microlot.priceRange.unit}: ${formatMoneyRange(data.microlot.priceRange.min, data.microlot.priceRange.max)}`,
   '',
   '── ✎ PARA AGREGAR O CAMBIAR UN CAFÉ ──',
   'GAIA · Tradicional: descripción, menudeo, mayoreo',

@@ -1,6 +1,6 @@
 ---
 import type { Microlot } from '../types/catalog';
-import { formatPrice } from '../lib/catalog';
+import { formatPriceRange } from '../lib/catalog';
 import Badge from './Badge.astro';
 import SectionHeader from './ui/SectionHeader.astro';
 
@@ -18,7 +18,7 @@ const { microlot } = Astro.props;
       <p class="pregunta">Pregunta por existencias</p>
       <p class="micro-desc">{microlot.description}</p>
       <div class="price-lines">
-        <p>PRECIO POR {microlot.priceRange.unit} {formatPrice(microlot.priceRange.min)} — {formatPrice(microlot.priceRange.max)}</p>
+        <p>PRECIO POR {microlot.priceRange.unit} {formatPriceRange(microlot.priceRange.min, microlot.priceRange.max)}</p>
       </div>
     </div>
   </div>

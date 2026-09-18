@@ -134,28 +134,32 @@
       "name": "GAIA",
       "title": "EL ORIGEN",
       "tagline": "Aquí empieza todo.",
-      "description": "La tierra nos da lo esencial, y nosotros lo transformamos en un café honesto y lleno de vida. Gaia es ese primer paso, el recordatorio de que cada grano importa."
+      "description": "La tierra nos da lo esencial, y nosotros lo transformamos en un café honesto y lleno de vida. Gaia es ese primer paso, el recordatorio de que cada grano importa.",
+      "tone": "gaia"
     },
     {
       "id": "aura",
       "name": "AURA",
       "title": "EL MOVIMIENTO",
       "tagline": "El aire que conecta, que da forma al cambio.",
-      "description": "Aura representa equilibrio y fluidez, un café que acompaña, que se comparte sin prisa. Cada taza celebra el presente y lo que nace del encuentro."
+      "description": "Aura representa equilibrio y fluidez, un café que acompaña, que se comparte sin prisa. Cada taza celebra el presente y lo que nace del encuentro.",
+      "tone": "aura"
     },
     {
       "id": "helios",
       "name": "HELIOS",
       "title": "LA CLARIDAD",
       "tagline": "La luz que revela el esfuerzo detrás de cada cosecha.",
-      "description": "Helios es la expresión pura del sabor: transparente, limpio y vibrante. Un café que honra la precisión y el cuidado que construyen legado."
+      "description": "Helios es la expresión pura del sabor: transparente, limpio y vibrante. Un café que honra la precisión y el cuidado que construyen legado.",
+      "tone": "helios"
     },
     {
       "id": "aether",
       "name": "AETHER",
       "title": "LO SUBLIME",
       "tagline": "El punto más alto del viaje.",
-      "description": "Aether simboliza lo que queda cuando todo se ha hecho con pasión y respeto: la huella. Un café para quienes buscan algo más que una bebida — una experiencia que trasciende."
+      "description": "Aether simboliza lo que queda cuando todo se ha hecho con pasión y respeto: la huella. Un café para quienes buscan algo más que una bebida — una experiencia que trasciende.",
+      "tone": "aether"
     }
   ]
 }
