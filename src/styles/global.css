@@ -18,6 +18,15 @@
   --display: "Fraunces", "Cormorant Garamond", Georgia, serif;
   --cover-display: "Cormorant Garamond", "Fraunces", Georgia, serif;
   --body: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  /* Motion tokens — single source. Marketing lines use --duration-line. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+  --duration-line: 900ms;
+  --duration-rule: 700ms;
+  --stagger-story: 80ms;
 }
 
 * { box-sizing: border-box; }
@@ -135,7 +144,7 @@ main, header, footer, section { position: relative; z-index: 1; }
     width: 22px;
     height: 2px;
     background: currentColor;
-    transition: transform 200ms var(--ease-out), opacity 150ms var(--ease-out);
+    transition: transform var(--duration-fast) var(--ease-out), opacity var(--duration-fast) var(--ease-out);
   }
   .menu-btn span + span { margin-top: 5px; }
   .index.open .menu-btn span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
@@ -158,17 +167,17 @@ main, header, footer, section { position: relative; z-index: 1; }
     visibility: hidden;
     transform: translateY(-6px);
     transition:
-      opacity 200ms var(--ease-out),
-      transform 200ms var(--ease-out),
-      visibility 0s 200ms;
+      opacity var(--duration-fast) var(--ease-out),
+      transform var(--duration-fast) var(--ease-out),
+      visibility 0s var(--duration-fast);
   }
   .index.open nav {
     opacity: 1;
     visibility: visible;
     transform: none;
     transition:
-      opacity 200ms var(--ease-out),
-      transform 200ms var(--ease-out);
+      opacity var(--duration-fast) var(--ease-out),
+      transform var(--duration-fast) var(--ease-out);
   }
   .index nav a {
     padding: 0.95rem 0.25rem;
@@ -229,7 +238,7 @@ main, header, footer, section { position: relative; z-index: 1; }
   font-size: clamp(2.75rem, 13vw, 7rem);
   letter-spacing: 0.04em;
   line-height: 1.1;
-  transition: letter-spacing 0.3s var(--ease-out);
+  transition: letter-spacing var(--duration-normal) var(--ease-out);
 }
 .cover-brand {
   margin: 0;
@@ -239,7 +248,7 @@ main, header, footer, section { position: relative; z-index: 1; }
   letter-spacing: 0.04em;
   line-height: 1.2;
   opacity: 0.85;
-  transition: letter-spacing 0.3s var(--ease-out);
+  transition: letter-spacing var(--duration-normal) var(--ease-out);
 }
 .cover-subtitle {
   margin: 0.8rem 0 0;
@@ -249,7 +258,7 @@ main, header, footer, section { position: relative; z-index: 1; }
   letter-spacing: 0.18em;
   text-transform: uppercase;
   opacity: 0.8;
-  transition: letter-spacing 0.3s var(--ease-out);
+  transition: letter-spacing var(--duration-normal) var(--ease-out);
 }
 .cover-foot p { margin: 0; }
 .cover-foot .tag {
@@ -282,7 +291,8 @@ main, header, footer, section { position: relative; z-index: 1; }
 }
 .page-title span { display: block; }
 
-/* Section title underline — GPU scaleX, bidirectional with scroll */
+/* Section title underline — GPU scaleX, bidirectional with scroll.
+   Hidden state scoped to html.js for progressive enhancement (no-JS = visible). */
 .reveal .page-title::after {
   content: "";
   display: block;
@@ -290,14 +300,22 @@ main, header, footer, section { position: relative; z-index: 1; }
   height: 2px;
   background: var(--ink);
   margin-top: 0.5rem;
-  transform: scaleX(0);
+  transform: scaleX(1);
   transform-origin: left;
-  transition: transform 0.9s var(--ease-out);
+}
+html.js .reveal .page-title::after {
+  transform: scaleX(0);
+  transition: transform var(--duration-line) var(--ease-out);
 }
 
 .reveal.visible .page-title::after {
   transform: scaleX(1);
-  transition-delay: 0.3s;
+  transition-delay: var(--duration-normal);
+}
+
+/* Must beat html.js hidden state (higher specificity). */
+html.js .reveal.visible .page-title::after {
+  transform: scaleX(1);
 }
 
 /* Insignias ovaladas — estilos scoped en Badge.astro (.badge-svg) */
@@ -314,9 +332,11 @@ main, header, footer, section { position: relative; z-index: 1; }
   .tradicional-grid { grid-template-columns: 1fr; gap: 1.5rem; }
   .tradicional-grid .badge-svg { width: min(120px, 32vw); margin-inline: auto; }
 }
-.blend-desc { font-size: 0.92rem; max-width: 46ch; }
+.blend-desc { font-size: 0.92rem; max-width: 46ch; margin-top: 1.2rem; }
+.page--flush-top { padding-top: 0; }
 .price-lines { margin: 1.4rem 0 0; font-weight: 700; font-size: 1.02rem; line-height: 1.7; }
 .price-lines p { margin: 0; }
+.price-lines--right { text-align: right; }
 .status-badge {
   display: inline-block;
   margin-top: 0.8rem;
@@ -430,13 +450,20 @@ main, header, footer, section { position: relative; z-index: 1; }
   background: var(--rule);
   width: min(560px, 90%);
   margin: 1.4rem auto 0;
-  transform: scaleX(0);
+  transform: scaleX(1);
   transform-origin: center;
-  transition: transform 0.7s var(--ease-out);
+}
+html.js .long-rule {
+  transform: scaleX(0);
+  transition: transform var(--duration-rule) var(--ease-out);
 }
 .reveal.visible .long-rule {
   transform: scaleX(1);
-  transition-delay: 0.2s;
+  transition-delay: var(--duration-fast);
+}
+
+html.js .reveal.visible .long-rule {
+  transform: scaleX(1);
 }
 .story-row {
   display: grid;
@@ -446,12 +473,21 @@ main, header, footer, section { position: relative; z-index: 1; }
   padding: 3rem 0;
   max-width: 760px;
   margin-inline: auto;
+  opacity: 1;
+  transform: none;
+}
+html.js .story-row {
   opacity: 0;
   transform: translateY(16px);
   transition: opacity var(--duration-normal) var(--ease-out),
               transform var(--duration-normal) var(--ease-out);
 }
 .story-row.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+html.js .story-row.visible {
   opacity: 1;
   transform: translateY(0);
 }
@@ -463,14 +499,21 @@ main, header, footer, section { position: relative; z-index: 1; }
   height: 3px;
   background: var(--rule);
   margin: 0 auto;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.5s var(--ease-out);
-}
-.story-row.visible + .short-rule,
-.reveal.visible .short-rule {
   transform: scaleX(1);
-  transition-delay: 0.2s;
+  transform-origin: left;
+}
+html.js .short-rule {
+  transform: scaleX(0);
+  transition: transform var(--duration-slow) var(--ease-out);
+}
+/* Single owner: short-rule follows its story-row, not the parent section. */
+.story-row.visible + .short-rule {
+  transform: scaleX(1);
+  transition-delay: var(--duration-fast);
+}
+
+html.js .story-row.visible + .short-rule {
+  transform: scaleX(1);
 }
 @media (max-width: 600px) {
   /* La insignia pequeña (92px) desbordaba la columna de 84px */
@@ -535,25 +578,18 @@ main, header, footer, section { position: relative; z-index: 1; }
   }
 }
 
-/* === MOTION TOKENS === */
-:root {
-  /* Easing */
-  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
-  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
-  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
-  
-  /* Duration */
-  --duration-fast: 150ms;
-  --duration-normal: 300ms;
-  --duration-slow: 500ms;
-}
-
 /* === PORTADA EN MÓVIL ===
    La imagen vive en <img class="cover-bg"> (object-fit: cover). Sin
    background-attachment: fixed: iOS Safari lo ignora y recorta el fondo. */
 
-/* === SCROLL-TRIGGERED REVEALS === */
+/* === SCROLL-TRIGGERED REVEALS ===
+   Progressive enhancement: visible by default, hidden only when html.js. */
 .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+html.js .reveal {
   opacity: 0;
   transform: translateY(20px);
   transition: opacity var(--duration-normal) var(--ease-out),
@@ -565,19 +601,11 @@ main, header, footer, section { position: relative; z-index: 1; }
   transform: translateY(0);
 }
 
-/* Stagger delays */
-.reveal-stagger > * {
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity var(--duration-fast) var(--ease-out),
-              transform var(--duration-fast) var(--ease-out);
+/* Must beat html.js hidden state (0,2,1 vs 0,2,0). */
+html.js .reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
-
-.reveal-stagger.visible > *:nth-child(1) { transition-delay: 0ms; opacity: 1; transform: none; }
-.reveal-stagger.visible > *:nth-child(2) { transition-delay: 80ms; opacity: 1; transform: none; }
-.reveal-stagger.visible > *:nth-child(3) { transition-delay: 160ms; opacity: 1; transform: none; }
-.reveal-stagger.visible > *:nth-child(4) { transition-delay: 240ms; opacity: 1; transform: none; }
-.reveal-stagger.visible > *:nth-child(5) { transition-delay: 320ms; opacity: 1; transform: none; }
 
 /* === HOVER EFFECTS === */
 
@@ -608,14 +636,15 @@ main, header, footer, section { position: relative; z-index: 1; }
   }
 }
 
-/* === SCROLL-LINKED ANIMATIONS === */
-@supports (animation-timeline: scroll()) {
-  .badge-svg {
+/* === SCROLL-LINKED ANIMATIONS ===
+   Progressive enhancement: no animation by default; view() only when supported. */
+@supports (animation-timeline: view()) {
+  html.js .badge-svg {
     animation: badge-appear linear both;
     animation-timeline: view();
     animation-range: entry 0% cover 40%;
   }
-  
+
   @keyframes badge-appear {
     from { opacity: 0; transform: scale(0.9) rotate(-5deg); }
     to { opacity: 1; transform: scale(1) rotate(0deg); }
@@ -624,66 +653,90 @@ main, header, footer, section { position: relative; z-index: 1; }
 
 /* === MICROLOTES STAGGERED SCALE === */
 .microlotes-grid > * {
+  opacity: 1;
+  transform: none;
+}
+
+html.js .microlotes-grid > * {
   opacity: 0;
   transform: scale(0.95);
-  transition: opacity 0.5s var(--ease-out), 
-              transform 0.5s var(--ease-out);
+  transition: opacity var(--duration-slow) var(--ease-out),
+              transform var(--duration-slow) var(--ease-out);
 }
 
-.reveal.visible .microlotes-grid > *:nth-child(1) { 
-  transition-delay: 0ms; 
-  opacity: 1; 
-  transform: scale(1); 
+.reveal.visible .microlotes-grid > *:nth-child(1) {
+  transition-delay: 0ms;
+  opacity: 1;
+  transform: scale(1);
 }
 
-.reveal.visible .microlotes-grid > *:nth-child(2) { 
-  transition-delay: 150ms; 
-  opacity: 1; 
-  transform: scale(1); 
+.reveal.visible .microlotes-grid > *:nth-child(2) {
+  transition-delay: var(--duration-fast);
+  opacity: 1;
+  transform: scale(1);
 }
 
-/* === REDUCED MOTION === */
+/* === REDUCED MOTION ===
+   html.js variants included: base rules lose to html.js hidden states. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  
+
   .reveal,
-  .reveal-stagger > * {
+  html.js .reveal,
+  html.js .reveal.visible {
     opacity: 1;
     transform: none;
     transition: none;
   }
-  
-  .reveal .page-title::after {
+
+  .reveal .page-title::after,
+  html.js .reveal .page-title::after,
+  html.js .reveal.visible .page-title::after {
     transition: none;
     transform: scaleX(1);
   }
 
   .long-rule,
-  .short-rule {
+  .short-rule,
+  html.js .long-rule,
+  html.js .short-rule,
+  html.js .reveal.visible .long-rule,
+  html.js .story-row.visible + .short-rule {
     transition: none;
     transform: scaleX(1);
   }
 
-  .story-row {
+  .story-row,
+  html.js .story-row,
+  html.js .story-row.visible {
     opacity: 1;
     transform: none;
     transition: none;
   }
-  
-  .microlotes-grid > * {
+
+  .microlotes-grid > *,
+  html.js .microlotes-grid > *,
+  html.js .reveal.visible .microlotes-grid > * {
     opacity: 1;
     transform: none;
     transition: none;
   }
-  
-  .badge-svg {
+
+  .badge-svg,
+  html.js .badge-svg {
     transition: none;
+    animation: none;
   }
 
   .cover-title,
   .cover-brand,
   .cover-subtitle {
     transition: none;
+  }
+
+  .cover-inner {
+    opacity: 1 !important;
+    transform: none !important;
   }
 
   .index nav,

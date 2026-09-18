@@ -1,5 +1,6 @@
 ---
-import { formatPrice, type Microlot } from '../types/catalog';
+import type { Microlot } from '../types/catalog';
+import { formatPrice } from '../lib/catalog';
 import Badge from './Badge.astro';
 import SectionHeader from './ui/SectionHeader.astro';
 
@@ -9,7 +10,7 @@ interface Props {
 
 const { microlot } = Astro.props;
 ---
-<section class="page reveal" id={microlot.id} aria-labelledby={`${microlot.id}-titulo`} style="padding-top:0">
+<section class="page reveal page--flush-top" id={microlot.id} aria-labelledby={`${microlot.id}-titulo`}>
   <div class="wrap microlotes-grid">
     <Badge tone="aether" />
     <div>

@@ -24,17 +24,8 @@ const { gourmet } = Astro.props;
               <h3>{profile.name}:</h3>
               <dl>
                 <dt>A: </dt><dd>{profile.acidity}</dd>
-                {profile.name === 'Chiapas' ? (
-                  <>
-                    <dt>C: </dt><dd>{profile.body}</dd>
-                    <dt>D: </dt><dd>{profile.sweetness}</dd>
-                  </>
-                ) : (
-                  <>
-                    <dt>D: </dt><dd>{profile.sweetness}</dd>
-                    <dt>C: </dt><dd>{profile.body}</dd>
-                  </>
-                )}
+                <dt>D: </dt><dd>{profile.sweetness}</dd>
+                <dt>C: </dt><dd>{profile.body}</dd>
               </dl>
             </div>
           ))}

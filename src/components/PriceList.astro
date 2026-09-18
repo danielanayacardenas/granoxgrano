@@ -1,5 +1,6 @@
 ---
-import { formatPrice, type Price } from '../types/catalog';
+import type { Price } from '../types/catalog';
+import { formatPrice, getPriceUnit, hasWholesale } from '../lib/catalog';
 
 interface Props {
   prices: Price;
@@ -8,12 +9,13 @@ interface Props {
 }
 
 const { prices, align = 'left', status } = Astro.props;
-const unit = prices.unit ? ` ${prices.unit}` : '';
+const unit = ` ${getPriceUnit(prices)}`;
+const showWholesale = hasWholesale(prices);
 ---
-<div class="price-lines" style={align === 'right' ? 'text-align:right' : undefined} aria-label="Precios">
+<div class:list={['price-lines', { 'price-lines--right': align === 'right' }]} aria-label="Precios">
   <p>MINORISTA: {formatPrice(prices.retail)}{unit}</p>
-  {prices.wholesale !== null && (
-    <p>MAYOREO {prices.wholesaleNote ?? ''}: {formatPrice(prices.wholesale)}{unit}</p>
+  {showWholesale && (
+    <p>MAYOREO {prices.wholesaleNote ?? ''}: {formatPrice(prices.wholesale as number)}{unit}</p>
   )}
   {status && <span class="status-badge">{status}</span>}
 </div>

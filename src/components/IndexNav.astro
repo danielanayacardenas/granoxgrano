@@ -1,19 +1,24 @@
 ---
 import type { CatalogMeta } from '../types/catalog';
+import type { SectionDescriptor } from '../lib/catalog';
 
 interface Props {
   meta?: Pick<CatalogMeta, 'brand'>;
+  sections?: SectionDescriptor[];
 }
 
 const { meta = { brand: 'Grano x Grano' } } = Astro.props;
-const links = [
-  { href: '#portada', label: 'Portada' },
-  { href: '#mezcla-tradicional', label: 'Tradicional' },
-  { href: '#mezclas-gourmet', label: 'Gourmet' },
-  { href: '#mezclas-especiales', label: 'Especiales' },
-  { href: '#microlotes-selectos', label: 'Microlotes' },
-  { href: '#historias', label: 'Historias' },
+
+const fallbackLinks: SectionDescriptor[] = [
+  { id: 'portada', href: '#portada', label: 'Portada' },
+  { id: 'mezcla-tradicional', href: '#mezcla-tradicional', label: 'Tradicional' },
+  { id: 'mezclas-gourmet', href: '#mezclas-gourmet', label: 'Gourmet' },
+  { id: 'mezclas-especiales', href: '#mezclas-especiales', label: 'Especiales' },
+  { id: 'microlotes-selectos', href: '#microlotes-selectos', label: 'Microlotes' },
+  { id: 'historias', href: '#historias', label: 'Historias' },
 ];
+
+const links = Astro.props.sections ?? fallbackLinks;
 ---
 <header class="index" aria-label="Índice del catálogo">
   <div class="index-inner">

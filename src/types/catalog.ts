@@ -57,6 +57,9 @@ export interface SpecialVariety {
   prices: Price;
   emblem?: string;
   status?: string;
+  /** Data-driven layout: replaces hard-coded ID lists in SpecialsSection. */
+  column?: 'left' | 'right';
+  order?: number;
 }
 
 export interface Microlot {
@@ -83,18 +86,26 @@ export interface CatalogMeta {
   tagline: string;
   instagram: { handle: string; url: string };
   storiesHeading: string;
+  established?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+}
+
+export interface SpecialsTitle {
+  id: string;
+  title: string;
+  subtitle: string;
 }
 
 export interface Catalog {
   meta: CatalogMeta;
   traditional: TraditionalBlend;
   gourmet: GourmetSection;
-  specialsTitle: { title: string; subtitle: string };
+  specialsTitle: SpecialsTitle;
   specials: SpecialVariety[];
   microlot: Microlot;
   stories: Story[];
 }
 
-export function formatPrice(value: number): string {
-  return `$${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-}
+// Price formatting lives in src/lib/catalog.ts (single source).
+// This file stays types-only.

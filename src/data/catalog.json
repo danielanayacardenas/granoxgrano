@@ -9,7 +9,8 @@
       "handle": "@granoxgrano",
       "url": "https://www.instagram.com/granoxgrano.mx/"
     },
-    "storiesHeading": "HISTORIAS QUE SE TUESTAN"
+    "storiesHeading": "HISTORIAS QUE SE TUESTAN",
+    "established": "EST. 2017"
   },
   "traditional": {
     "id": "mezcla-tradicional",
@@ -38,12 +39,13 @@
     ],
     "prices": {
       "retail": 400,
-      "wholesale": 320,
+      "wholesale": 340,
       "unit": "kg",
       "wholesaleNote": "+10kg"
     }
   },
   "specialsTitle": {
+    "id": "mezclas-especiales",
     "title": "MEZCLAS",
     "subtitle": "ESPECIALES"
   },
@@ -55,11 +57,13 @@
       "process": "Lavado",
       "score": "80–82 puntos",
       "variety": "Bourbon",
+      "column": "left",
+      "order": 0,
       "tastingNotes": [
         "Características en taza: acidez cítrica alta, frutos amarillos,",
         "lima, dulzor medio, cuerpo medio jugoso."
       ],
-      "prices": { "retail": 420, "wholesale": 340, "unit": "", "wholesaleNote": "+10kg" }
+      "prices": { "retail": 420, "wholesale": 340, "unit": "kg", "wholesaleNote": "+10kg" }
     },
     {
       "id": "nayarit-xalisco",
@@ -68,11 +72,13 @@
       "mesh": "15/16",
       "process": "Natural",
       "score": "83-85",
+      "column": "right",
+      "order": 1,
       "tastingNotes": [
         "Características en taza: Acidez jugosa, cuerpo medio,",
         "notas frutos maduros."
       ],
-      "prices": { "retail": 450, "wholesale": 360, "unit": "", "wholesaleNote": "+10kg" }
+      "prices": { "retail": 450, "wholesale": 360, "unit": "kg", "wholesaleNote": "+10kg" }
     },
     {
       "id": "chiapas-la-concordia",
@@ -84,13 +90,15 @@
       "process": "Lavado",
       "fermentation": "Reposo de 20 horas, para luego pasar al despulpado y posteriormente ser lavado",
       "preparation": "Europea 80–90% de granos de arriba de la zaranda 17 con hasta 12 defectos.",
+      "column": "right",
+      "order": 0,
       "tastingNotes": [
         "Características en taza: Fragancia y aroma a chocolate.",
         "Sabor a ralladura de naranja y panela.",
         "Post-gusto prolongado, con notas a caramelo.",
         "Acidez brillante y cítrica. Cuerpo redondo y cremoso."
       ],
-      "prices": { "retail": 440, "wholesale": 350, "unit": "", "wholesaleNote": "+10kg" }
+      "prices": { "retail": 440, "wholesale": 350, "unit": "kg", "wholesaleNote": "+10kg" }
     },
     {
       "id": "veracruz-huatusco",
@@ -107,8 +115,10 @@
       "origin": "Huatusco, Coatepec",
       "process": "Lavado, fermentado",
       "altitude": "1100–1200 msnm",
+      "column": "left",
+      "order": 1,
       "tastingNotes": [],
-      "prices": { "retail": 450, "wholesale": 360, "unit": "", "wholesaleNote": "+10kg" }
+      "prices": { "retail": 450, "wholesale": 360, "unit": "kg", "wholesaleNote": "+10kg" }
     }
   ],
   "microlot": {

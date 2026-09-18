@@ -1,23 +1,22 @@
 ---
 import type { SpecialVariety } from '../types/catalog';
+import { getSpecialsColumns } from '../lib/catalog';
 import Badge from './Badge.astro';
 import SectionHeader from './ui/SectionHeader.astro';
 import VarietyCard from './ui/VarietyCard.astro';
 
 interface Props {
+  id?: string;
   title: string;
   subtitle: string;
   specials: SpecialVariety[];
 }
 
-const { title, subtitle, specials } = Astro.props;
+const { id = 'mezclas-especiales', title, subtitle, specials } = Astro.props;
 
-const left = specials.filter((s) => ['chiapas-tapachula', 'veracruz-huatusco'].includes(s.id));
-const right = specials.filter((s) => ['chiapas-la-concordia', 'nayarit-xalisco'].includes(s.id));
-const fallbackLeft = left.length ? left : specials.slice(0, 2);
-const fallbackRight = right.length ? right : specials.slice(2, 4);
+const { left, right } = getSpecialsColumns(specials);
 ---
-<section class="page reveal" id="mezclas-especiales" aria-labelledby="especiales-titulo">
+<section class="page reveal" id={id} aria-labelledby="especiales-titulo">
   <div class="wrap">
     <div class="especiales-head">
       <SectionHeader title={title} subtitle={subtitle} id="especiales" />
@@ -25,12 +24,12 @@ const fallbackRight = right.length ? right : specials.slice(2, 4);
     </div>
     <div class="especiales-cols">
       <div>
-        {fallbackLeft.map((item) => (
+        {left.map((item) => (
           <VarietyCard item={item} />
         ))}
       </div>
       <div class="right">
-        {fallbackRight.map((item) => (
+        {right.map((item) => (
           <VarietyCard item={item} align="right" />
         ))}
       </div>
