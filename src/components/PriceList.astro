@@ -10,12 +10,11 @@ interface Props {
 
 const { prices, align = 'left', status } = Astro.props;
 const unit = ` ${getPriceUnit(prices)}`;
-const showWholesale = hasWholesale(prices);
 ---
 <div class:list={['price-lines', { 'price-lines--right': align === 'right' }]} aria-label="Precios">
   <p>MINORISTA: {formatPrice(prices.retail)}{unit}</p>
-  {showWholesale && (
-    <p>MAYOREO {prices.wholesaleNote ?? ''}: {formatPrice(prices.wholesale as number)}{unit}</p>
+  {hasWholesale(prices) && (
+    <p>MAYOREO {prices.wholesaleNote ?? ''}: {formatPrice(prices.wholesale)}{unit}</p>
   )}
   {status && <span class="status-badge">{status}</span>}
 </div>

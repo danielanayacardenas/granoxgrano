@@ -10,6 +10,7 @@ import {
   getSpecialsColumns,
   getVarietyRows,
   getVarietyRowsForWhatsApp,
+  getWholesaleLine,
   hasWholesale,
   loadCatalog,
   normalizePrice,
@@ -135,6 +136,13 @@ test('sentence capitalizes first letter and lowercases the rest', () => {
 test('formatPriceRange and formatMoneyRange join min and max', () => {
   expect(formatPriceRange(600, 1200)).toBe('$600.00 — $1,200.00');
   expect(formatMoneyRange(600, 1200)).toBe('$600.00 MXN – $1,200.00 MXN');
+});
+
+test('getWholesaleLine returns null without wholesale', () => {
+  expect(getWholesaleLine({ retail: 100, wholesale: null })).toBeNull();
+  expect(
+    getWholesaleLine({ retail: 100, wholesale: 340, unit: 'kg', wholesaleNote: '+10kg' }),
+  ).toBe('$340.00 kg +10kg');
 });
 
 test('loadCatalog defaults missing story tones to gaia', () => {

@@ -12,7 +12,8 @@ import type { BadgeTone, Catalog, Price, SpecialVariety } from '../types/catalog
 export function normalizePrice(raw: Partial<Price> & { retail: number }): Price {
   const wholesale =
     raw.wholesale === undefined || raw.wholesale === null ? null : raw.wholesale;
-  const unit = (raw.unit ?? '').trim() === '' ? 'kg' : (raw.unit as string).trim();
+  const rawUnit = (raw.unit ?? '').trim();
+  const unit = rawUnit === '' ? 'kg' : rawUnit;
   return {
     retail: raw.retail,
     wholesale,
@@ -21,7 +22,7 @@ export function normalizePrice(raw: Partial<Price> & { retail: number }): Price 
   };
 }
 
-export function hasWholesale(prices: Price): boolean {
+export function hasWholesale(prices: Price): prices is Price & { wholesale: number } {
   return prices.wholesale !== null && prices.wholesale !== undefined;
 }
 
@@ -53,7 +54,7 @@ export function getRetailLine(prices: Price): string {
 export function getWholesaleLine(prices: Price): string | null {
   if (!hasWholesale(prices)) return null;
   const note = prices.wholesaleNote ? ` ${prices.wholesaleNote}` : '';
-  return `${formatPrice(prices.wholesale as number)} ${getPriceUnit(prices)}${note}`.trim();
+  return `${formatPrice(prices.wholesale)} ${getPriceUnit(prices)}${note}`.trim();
 }
 
 // --- Variety details (canonical, no product-ID branches) ---

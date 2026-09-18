@@ -21,7 +21,7 @@ function priceLines(prices: Price): string[] {
   const lines = [`• Menudeo: ${money(prices.retail)} / ${unit}`];
   if (hasWholesale(prices)) {
     const note = prices.wholesaleNote ? ` ${prices.wholesaleNote}` : '';
-    lines.push(`• Mayoreo${note}: ${money(prices.wholesale as number)} / ${unit}`);
+    lines.push(`• Mayoreo${note}: ${money(prices.wholesale)} / ${unit}`);
   }
   return lines;
 }

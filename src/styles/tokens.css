@@ -1,0 +1,28 @@
+/* Grano x Grano — design tokens (color, type, layout, motion). Single source. */
+
+:root {
+  --paper: #ece2cc;
+  --paper-deep: #e3d5b8;
+  --ink: #191713;
+  --ink-soft: #3d3a33;
+  --cream: #f5ebd6;
+  --brown: #5a2e14;
+  --gaia: #6a3a1e;
+  --aura: #7e8891;
+  --helios: #6e1b30;
+  --aether: #103e4e;
+  --rule: #191713;
+  --max: 880px;
+  --display: "Fraunces", "Cormorant Garamond", Georgia, serif;
+  --cover-display: "Cormorant Garamond", "Fraunces", Georgia, serif;
+  --body: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  /* Motion tokens — single source. Marketing lines use --duration-line. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+  --duration-line: 900ms;
+  --duration-rule: 700ms;
+  --stagger-story: 80ms;
+}
